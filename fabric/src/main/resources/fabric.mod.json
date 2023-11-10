@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "fivedimcasting",
+  "version": "${version}",
+  "name": "5D Casting With Multiverse Time Travel",
+  "description": "Please describe me!",
+  "authors": [
+    "master_bw3"
+  ],
+  "contact": {
+    "homepage": "https://artynova.github.io",
+    "sources": "https://github.com/artynova/hexcasting-architectury-addon-template"
+  },
+  "license": "MIT",
+  "icon": "icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      {
+        "adapter": "kotlin",
+        "value": "net.masterbw3.fivedimcasting.fabric.FiveDimCastingFabricInitializer"
+      }
+    ],
+    "client": [
+      "net.masterbw3.fivedimcasting.fabric.FiveDimCastingClientFabric"
+    ]
+  },
+  "depends": {
+    "minecraft": ">=1.20.1",
+    "fabricloader": ">=0.14.21",
+    "fabric-api": "*",
+    "fabric-language-kotlin": ">=1.9.0+kotlin.1.8.0",
+    "architectury": ">=6.5.85",
+    "hexcasting": ">=0.10.3"
+  }
+}
