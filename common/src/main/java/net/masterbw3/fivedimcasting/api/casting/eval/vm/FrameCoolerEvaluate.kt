@@ -9,14 +9,14 @@ import at.petrak.hexcasting.api.casting.eval.vm.FrameEvaluate
 import at.petrak.hexcasting.api.casting.eval.vm.SpellContinuation
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.ListIota
-//import at.petrak.hexcasting.api.utils.NBTBuilder
-//import at.petrak.hexcasting.api.utils.serializeToNBT
+import at.petrak.hexcasting.api.utils.serializeToNBT
 import at.petrak.hexcasting.common.lib.hex.HexEvalSounds
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import at.petrak.hexcasting.api.utils.getList
+import net.masterbw3.fivedimcasting.api.utils.NBTBuilder
 
 /**
  * A list of patterns to be evaluated in sequence.
@@ -24,16 +24,16 @@ import at.petrak.hexcasting.api.utils.getList
  * @property isMetacasting only for sound effects, if this is being cast from a hermes / iris
  */
 data class FrameCoolerEvaluate(
-    val list: SpellList, val isMetacasting: Boolean,
+        val list: SpellList, val isMetacasting: Boolean,
 ) : ContinuationFrame {
     // Discard this frame and keep discarding frames.
     override fun breakDownwards(stack: List<Iota>) = false to stack
 
     // Step the list of patterns, evaluating a single one.
     override fun evaluate(
-        continuation: SpellContinuation,
-        level: ServerWorld,
-        harness: CastingVM
+            continuation: SpellContinuation,
+            level: ServerWorld,
+            harness: CastingVM
     ): CastResult {
         // If there are patterns left...
         return if (list.nonEmpty) {
@@ -54,8 +54,11 @@ data class FrameCoolerEvaluate(
         }
     }
 
-    override fun serializeToNBT(): NbtCompound {
-        TODO()
+    override fun serializeToNBT() = NBTBuilder {
+        "type" %= "evaluate"
+        "patterns" %= list.serializeToNBT()
+        "isMetacasting" %= isMetacasting
+
     }
 
     override fun size() = list.size()
@@ -68,11 +71,11 @@ data class FrameCoolerEvaluate(
         val TYPE: ContinuationFrame.Type<FrameCoolerEvaluate> = object : ContinuationFrame.Type<FrameCoolerEvaluate> {
             override fun deserializeFromNBT(tag: NbtCompound, world: ServerWorld): FrameCoolerEvaluate {
                 return FrameCoolerEvaluate(
-                    HexIotaTypes.LIST.deserialize(
-                        tag.getList("patterns", NbtElement.COMPOUND_TYPE),
-                        world
-                    )!!.list,
-                    tag.getBoolean("isMetacasting")
+                        HexIotaTypes.LIST.deserialize(
+                                tag.getList("patterns", NbtElement.COMPOUND_TYPE),
+                                world
+                        )!!.list,
+                        tag.getBoolean("isMetacasting")
                 )
             }
 
