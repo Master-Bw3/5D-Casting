@@ -21,6 +21,20 @@ public class ContinuumIota extends Iota {
         super(FiveDimCastingIotaTypes.CONTINUUM, new Payload(frontVal, genNextFunc, maps));
     }
 
+    public Iota getFrontVal() {
+        return ((Payload) this.payload).frontVal;
+    }
+
+    public SpellList getGenNextFunc() {
+        return ((Payload) this.payload).genNextFunc;
+    }
+
+    public List<SpellList> getMaps() {
+        return ((Payload) this.payload).maps;
+    }
+
+
+
     @Override
     public boolean isTruthy() {
         return true;
