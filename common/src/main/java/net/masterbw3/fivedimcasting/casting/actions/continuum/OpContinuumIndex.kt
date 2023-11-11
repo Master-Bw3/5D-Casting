@@ -14,5 +14,33 @@ import net.masterbw3.fivedimcasting.api.getContinuum
 
 object OpContinuumIndex : Action {
     override fun operate(env: CastingEnvironment, image: CastingImage, continuation: SpellContinuation): OperationResult {
+        val stack = image.stack.toMutableList()
 
+        if (stack.size < 2)
+            throw MishapNotEnoughArgs(2, stack.size)
+
+        val continuum = stack.getContinuum(stack.lastIndex - 1)
+        val index = stack.getPositiveInt(stack.lastIndex)
+        stack.removeLastOrNull()
+        stack.removeLastOrNull()
+
+        val maps = emptyList<SpellList>().toMutableList();
+        continuum.maps.forEach { map ->
+            maps.add(SpellList.LList(map))
+        }
+
+        val frame = FrameIterate(
+                null,
+                0U,
+                Pair(index.toUInt(), index.toUInt()),
+                true,
+                emptyList<Iota>().toMutableList(),
+                continuum.frontVal,
+                SpellList.LList(continuum.genNextFunc),
+                maps
+        )
+        val image2 = image.withUsedOp().copy(stack = stack)
+
+        return OperationResult(image2, listOf(), continuation.pushFrame(frame), HexEvalSounds.THOTH)
+    }
 }

@@ -29,8 +29,8 @@ public class FiveDimCastingActions extends HexActions {
     public static final ActionRegistryEntry MAKE_STREAM = make("make_stream",
             new ActionRegistryEntry(HexPattern.fromAngles("aqqqaqwdaqqqaq", HexDir.NORTH_EAST), OpMakeStream.INSTANCE));
 
-//    public static final ActionRegistryEntry CONTINUUM_INDEX = make("continuum_index",
-//            new ActionRegistryEntry(HexPattern.fromAngles("deeed", HexDir.NORTH_EAST), OpContinuumIndex.INSTANCE));
+    public static final ActionRegistryEntry CONTINUUM_INDEX = make("continuum_index",
+            new ActionRegistryEntry(HexPattern.fromAngles("deeede", HexDir.NORTH_EAST), OpContinuumIndex.INSTANCE));
 
     public static ActionRegistryEntry make(String name, ActionRegistryEntry are) {
         var old = ACTIONS.put(modLoc(name), are);
