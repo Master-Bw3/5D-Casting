@@ -4,13 +4,11 @@ import at.petrak.hexcasting.api.casting.ActionRegistryEntry;
 import at.petrak.hexcasting.api.casting.castables.OperationAction;
 import at.petrak.hexcasting.api.casting.math.HexDir;
 import at.petrak.hexcasting.api.casting.math.HexPattern;
-import at.petrak.hexcasting.common.casting.actions.selectors.OpGetCaster;
 import at.petrak.hexcasting.common.lib.hex.HexActions;
-import net.masterbw3.fivedimcasting.casting.patterns.continuum.OpGet;
-import net.masterbw3.fivedimcasting.casting.patterns.continuum.OpMakeStream;
-import net.masterbw3.fivedimcasting.casting.patterns.eval.OpCoolerEval;
-import net.masterbw3.fivedimcasting.casting.patterns.spells.OpCongrats;
-import net.minecraft.registry.Registry;
+import net.masterbw3.fivedimcasting.casting.actions.continuum.OpContinuumIndex;
+import net.masterbw3.fivedimcasting.casting.actions.continuum.OpMakeStream;
+import net.masterbw3.fivedimcasting.casting.actions.eval.OpCoolerEval;
+import net.masterbw3.fivedimcasting.casting.actions.spells.OpCongrats;
 import net.minecraft.util.Identifier;
 
 import java.util.LinkedHashMap;
@@ -31,8 +29,8 @@ public class FiveDimCastingActions extends HexActions {
     public static final ActionRegistryEntry MAKE_STREAM = make("make_stream",
             new ActionRegistryEntry(HexPattern.fromAngles("aqqqaqwdaqqqaq", HexDir.NORTH_EAST), OpMakeStream.INSTANCE));
 
-    public static final ActionRegistryEntry CONTINUUM_GET = make("continuum_get",
-            new ActionRegistryEntry(HexPattern.fromAngles("deeed", HexDir.NORTH_EAST), OpGet.INSTANCE));
+//    public static final ActionRegistryEntry CONTINUUM_INDEX = make("continuum_index",
+//            new ActionRegistryEntry(HexPattern.fromAngles("deeed", HexDir.NORTH_EAST), OpContinuumIndex.INSTANCE));
 
     public static ActionRegistryEntry make(String name, ActionRegistryEntry are) {
         var old = ACTIONS.put(modLoc(name), are);

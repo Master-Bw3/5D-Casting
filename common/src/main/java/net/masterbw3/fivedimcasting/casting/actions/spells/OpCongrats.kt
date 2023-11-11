@@ -1,4 +1,4 @@
-package net.masterbw3.fivedimcasting.casting.patterns.spells
+package net.masterbw3.fivedimcasting.casting.actions.spells
 
 import at.petrak.hexcasting.api.casting.ParticleSpray
 import at.petrak.hexcasting.api.casting.RenderedSpell

@@ -1,4 +1,4 @@
-package net.masterbw3.fivedimcasting.casting.patterns.math
+package net.masterbw3.fivedimcasting.casting.actions.math
 
 import at.petrak.hexcasting.api.casting.asActionResult
 import at.petrak.hexcasting.api.casting.castables.ConstMediaAction

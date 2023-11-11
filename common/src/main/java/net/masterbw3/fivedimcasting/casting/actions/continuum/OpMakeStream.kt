@@ -1,13 +1,10 @@
-package net.masterbw3.fivedimcasting.casting.patterns.continuum
+package net.masterbw3.fivedimcasting.casting.actions.continuum
 
-import at.petrak.hexcasting.api.casting.SpellList
 import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
-import at.petrak.hexcasting.api.casting.getDouble
 import at.petrak.hexcasting.api.casting.getList
 import at.petrak.hexcasting.api.casting.iota.Iota
 import net.masterbw3.fivedimcasting.api.casting.iota.ContinuumIota
-import net.masterbw3.fivedimcasting.api.getContinuum
 
 
 object OpMakeStream : ConstMediaAction {
