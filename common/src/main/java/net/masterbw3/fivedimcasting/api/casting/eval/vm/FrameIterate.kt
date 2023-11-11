@@ -8,9 +8,9 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.ListIota
 import at.petrak.hexcasting.api.casting.iota.NullIota
 import at.petrak.hexcasting.api.utils.getList
-import at.petrak.hexcasting.api.utils.serializeToNBT
 import at.petrak.hexcasting.common.lib.hex.HexEvalSounds
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes
+import net.masterbw3.fivedimcasting.FiveDimCasting
 import net.masterbw3.fivedimcasting.api.utils.NBTBuilder
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
@@ -21,7 +21,7 @@ data class FrameIterate(
         val index: UInt,
         val collect: Pair<UInt, UInt>,
         val collectSingle: Boolean,
-        val acc: MutableList<Iota>,
+        val acc: List<Iota>,
         val initialIota: Iota,
         val genNextCode: SpellList,
         val maps: List<SpellList>,
@@ -35,6 +35,7 @@ data class FrameIterate(
             level: ServerWorld,
             harness: CastingVM
     ): CastResult {
+        FiveDimCasting.LOGGER.info("owo " + index)
         var newCont = continuation
         var newImage = harness.image.withUsedOp()
         val newAcc = acc.toMutableList();
@@ -51,21 +52,15 @@ data class FrameIterate(
             }
         }
 
-        var newBaseStack = if (baseStack == null) {
-            //entry point
-            harness.image.stack
-        } else {
-            //iteration
-            baseStack
-        }
+        var newBaseStack = baseStack ?: harness.image.stack
 
         if (index >= collect.second) {
             //if frame is last in range, apply maps
             if (maps.isEmpty()) {
                 if (collectSingle) {
-                    newImage =  newImage.copy(stack = listOf(acc.first()))
+                    newImage = newImage.copy(stack = newBaseStack + listOf(newAcc.first()))
                 } else {
-                    newImage =  newImage.copy(stack = acc)
+                    newImage = newImage.copy(stack = newBaseStack + acc)
                 }
                 return CastResult(
                         ListIota(genNextCode),
@@ -87,8 +82,9 @@ data class FrameIterate(
             }
             newImage = newImage.copy(stack = listOf(result))
 
+            FiveDimCasting.LOGGER.info("hii")
 
-            newCont.pushFrame(FrameIterate(
+            newCont = newCont.pushFrame(FrameIterate(
                     newBaseStack,
                     (index + 1U),
                     collect,
@@ -97,9 +93,7 @@ data class FrameIterate(
                     result,
                     genNextCode,
                     maps)
-            )
-
-            newCont.pushFrame(FrameEvaluate(genNextCode, true))
+            ).pushFrame(FrameEvaluate(genNextCode, true))
 
             return CastResult(
                     ListIota(genNextCode),

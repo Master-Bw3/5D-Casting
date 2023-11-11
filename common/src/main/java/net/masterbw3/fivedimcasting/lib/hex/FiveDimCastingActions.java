@@ -6,6 +6,7 @@ import at.petrak.hexcasting.api.casting.math.HexDir;
 import at.petrak.hexcasting.api.casting.math.HexPattern;
 import at.petrak.hexcasting.common.casting.actions.selectors.OpGetCaster;
 import at.petrak.hexcasting.common.lib.hex.HexActions;
+import net.masterbw3.fivedimcasting.casting.patterns.continuum.OpGet;
 import net.masterbw3.fivedimcasting.casting.patterns.continuum.OpMakeStream;
 import net.masterbw3.fivedimcasting.casting.patterns.eval.OpCoolerEval;
 import net.masterbw3.fivedimcasting.casting.patterns.spells.OpCongrats;
@@ -28,8 +29,10 @@ public class FiveDimCastingActions extends HexActions {
            new ActionRegistryEntry(HexPattern.fromAngles("eedd", HexDir.NORTH_EAST), OpCoolerEval.INSTANCE));
 
     public static final ActionRegistryEntry MAKE_STREAM = make("make_stream",
-            new ActionRegistryEntry(HexPattern.fromAngles("www", HexDir.NORTH_EAST), OpMakeStream.INSTANCE));
+            new ActionRegistryEntry(HexPattern.fromAngles("aqqqaqwdaqqqaq", HexDir.NORTH_EAST), OpMakeStream.INSTANCE));
 
+    public static final ActionRegistryEntry CONTINUUM_GET = make("continuum_get",
+            new ActionRegistryEntry(HexPattern.fromAngles("deeed", HexDir.NORTH_EAST), OpGet.INSTANCE));
 
     public static ActionRegistryEntry make(String name, ActionRegistryEntry are) {
         var old = ACTIONS.put(modLoc(name), are);
