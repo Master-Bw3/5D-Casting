@@ -16,7 +16,7 @@ object OpMakeStream : ConstMediaAction {
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val initialIota = args[0]
-        val genNextCode = args.getList(1, argc)
+        val genNextCode = args.getList(1, argc).toMutableList()
 
         return listOf(ContinuumIota(initialIota, genNextCode, emptyList()));
     }
