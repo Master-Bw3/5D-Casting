@@ -38,11 +38,11 @@ data class FrameMap(
 
         //start of a new map
         if (init) {
-            var newCurrentMap = remainingMaps[0]
-            var newRemainingMaps = remainingMaps.drop(1)
+            val newCurrentMap = remainingMaps[0]
+            val newRemainingMaps = remainingMaps.drop(1)
 
-            var newData = data.drop(1)
-            var element = data.first()
+            val element = data.first()
+            val newData = data.drop(1)
 
             newCont = newCont.pushFrame(FrameMap(
                     newData,
@@ -82,7 +82,7 @@ data class FrameMap(
                 newImage = newImage.copy(stack = emptyList())
 
                 newCont = newCont.pushFrame(FrameMap(
-                        acc,
+                        newAcc,
                         remainingMaps,
                         SpellList.LList(emptyList()),
                         baseStack,
@@ -105,7 +105,7 @@ data class FrameMap(
                 newImage = if (collectSingle) {
                     newImage.copy(stack = baseStack + listOf(newAcc.first()))
                 } else {
-                    newImage.copy(stack = baseStack + listOf(ListIota(acc)))
+                    newImage.copy(stack = baseStack + listOf(ListIota(newAcc)))
                 }
                 return CastResult(
                         ListIota(currentMap),

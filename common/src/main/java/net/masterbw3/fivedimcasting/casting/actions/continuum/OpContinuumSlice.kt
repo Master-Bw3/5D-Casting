@@ -30,7 +30,7 @@ object OpContinuumSlice : Action {
         val frame = FrameIterate(
                 null,
                 0U,
-                Pair(startIndex.toUInt(), endIndex.toUInt()),
+                Pair(startIndex.toUInt(), (endIndex - 1).toUInt()),
                 false,
                 emptyList<Iota>().toMutableList(),
                 continuum.frontVal,

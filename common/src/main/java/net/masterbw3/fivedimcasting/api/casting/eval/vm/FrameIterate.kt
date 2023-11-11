@@ -59,7 +59,7 @@ data class FrameIterate(
                 newImage = if (collectSingle) {
                     newImage.copy(stack = newBaseStack + listOf(newAcc.first()))
                 } else {
-                    newImage.copy(stack = newBaseStack + listOf(ListIota(acc)))
+                    newImage.copy(stack = newBaseStack + listOf(ListIota(newAcc)))
                 }
                 return CastResult(
                         ListIota(genNextCode),
