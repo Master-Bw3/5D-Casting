@@ -35,7 +35,6 @@ data class FrameIterate(
             level: ServerWorld,
             harness: CastingVM
     ): CastResult {
-        FiveDimCasting.LOGGER.info("owo " + index)
         var newCont = continuation
         var newImage = harness.image.withUsedOp()
         val newAcc = acc.toMutableList();
@@ -57,10 +56,10 @@ data class FrameIterate(
         if (index >= collect.second) {
             //if frame is last in range, apply maps
             if (maps.isEmpty()) {
-                if (collectSingle) {
-                    newImage = newImage.copy(stack = newBaseStack + listOf(newAcc.first()))
+                newImage = if (collectSingle) {
+                    newImage.copy(stack = newBaseStack + listOf(newAcc.first()))
                 } else {
-                    newImage = newImage.copy(stack = newBaseStack + acc)
+                    newImage.copy(stack = newBaseStack + listOf(ListIota(acc)))
                 }
                 return CastResult(
                         ListIota(genNextCode),
@@ -71,7 +70,23 @@ data class FrameIterate(
                         HexEvalSounds.THOTH
                 )
             } else {
-                TODO()
+                newCont = newCont.pushFrame(FrameMap(
+                        newAcc,
+                        maps,
+                        SpellList.LList(emptyList()),
+                        newBaseStack,
+                        emptyList(),
+                        true,
+                        collectSingle
+                ))
+                return CastResult(
+                        ListIota(genNextCode),
+                        newCont,
+                        newImage,
+                        listOf(),
+                        ResolvedPatternType.EVALUATED,
+                        HexEvalSounds.THOTH
+                )
             }
 
         } else {
@@ -81,8 +96,6 @@ data class FrameIterate(
                 getStackTop(harness)
             }
             newImage = newImage.copy(stack = listOf(result))
-
-            FiveDimCasting.LOGGER.info("hii")
 
             newCont = newCont.pushFrame(FrameIterate(
                     newBaseStack,

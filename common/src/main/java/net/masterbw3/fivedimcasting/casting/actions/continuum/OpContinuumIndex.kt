@@ -24,11 +24,6 @@ object OpContinuumIndex : Action {
         stack.removeLastOrNull()
         stack.removeLastOrNull()
 
-        val maps = emptyList<SpellList>().toMutableList();
-        continuum.maps.forEach { map ->
-            maps.add(SpellList.LList(map))
-        }
-
         val frame = FrameIterate(
                 null,
                 0U,
@@ -37,7 +32,7 @@ object OpContinuumIndex : Action {
                 emptyList<Iota>().toMutableList(),
                 continuum.frontVal,
                 SpellList.LList(continuum.genNextFunc),
-                maps
+                continuum.maps
         )
         val image2 = image.withUsedOp().copy(stack = stack)
 

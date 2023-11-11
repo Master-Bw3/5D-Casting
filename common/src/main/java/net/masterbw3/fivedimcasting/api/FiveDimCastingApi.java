@@ -15,10 +15,10 @@ public interface FiveDimCastingApi
 
     Supplier<FiveDimCastingApi> INSTANCE = Suppliers.memoize(() -> {
         try {
-            return (FiveDimCastingApi) Class.forName("ram.talia.hexal.common.impl.HexalAPIImpl")
+            return (FiveDimCastingApi) Class.forName("net.masterbw3.fivedimcasting.FiveDimCastingApiImpl")
                     .getDeclaredConstructor().newInstance();
         } catch (ReflectiveOperationException e) {
-            LogManager.getLogger().warn("Unable to find HexalAPIImpl, using a dummy");
+            LogManager.getLogger().warn("Unable to find FiveDimCastingAPIImpl, using a dummy");
             return new FiveDimCastingApi() {
             };
         }
