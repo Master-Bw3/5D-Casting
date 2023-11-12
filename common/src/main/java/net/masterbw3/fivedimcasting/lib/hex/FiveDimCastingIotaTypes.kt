@@ -3,6 +3,7 @@ package net.masterbw3.fivedimcasting.lib.hex
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.IotaType
 import net.masterbw3.fivedimcasting.api.FiveDimCastingApi.modLoc
+import net.masterbw3.fivedimcasting.api.casting.iota.CellIota
 import net.masterbw3.fivedimcasting.api.casting.iota.ContinuumIota
 import net.minecraft.util.Identifier
 import org.jetbrains.annotations.ApiStatus
@@ -21,6 +22,9 @@ object FiveDimCastingIotaTypes {
 
     @JvmField
     val CONTINUUM: IotaType<ContinuumIota> = type("continuum", ContinuumIota.TYPE)
+
+    @JvmField
+    val CELL: IotaType<CellIota> = type("cell", CellIota.TYPE)
 
 
     private fun <U : Iota, T : IotaType<U>> type(name: String, type: T): T {

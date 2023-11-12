@@ -57,7 +57,7 @@ data class FrameMap(
             newImage = newImage.copy(stack = listOf(element))
 
             newCont = newCont.pushFrame(FrameEvaluate(
-                    currentMap,
+                    newCurrentMap,
                     true
             ))
 
@@ -77,7 +77,7 @@ data class FrameMap(
             val stackTop = newImage.stack.last()
             newAcc.add(stackTop)
 
-            if (!remainingMaps.isEmpty()) {
+            if (remainingMaps.isNotEmpty()) {
                 //if there are more maps
                 newImage = newImage.copy(stack = emptyList())
 
