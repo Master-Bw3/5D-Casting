@@ -5,6 +5,7 @@ import at.petrak.hexcasting.api.casting.iota.IotaType
 import net.masterbw3.fivedimcasting.api.FiveDimCastingApi.modLoc
 import net.masterbw3.fivedimcasting.api.casting.iota.CellIota
 import net.masterbw3.fivedimcasting.api.casting.iota.ContinuumIota
+import net.masterbw3.fivedimcasting.api.casting.iota.QuaternionIota
 import net.minecraft.util.Identifier
 import org.jetbrains.annotations.ApiStatus
 import java.util.function.BiConsumer
@@ -26,6 +27,8 @@ object FiveDimCastingIotaTypes {
     @JvmField
     val CELL: IotaType<CellIota> = type("cell", CellIota.TYPE)
 
+    @JvmField
+    val QUATERNION: IotaType<QuaternionIota> = type("quaternion", QuaternionIota.TYPE)
 
     private fun <U : Iota, T : IotaType<U>> type(name: String, type: T): T {
         val old = TYPES.put(modLoc(name), type)

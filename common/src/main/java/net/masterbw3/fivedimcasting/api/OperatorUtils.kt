@@ -1,10 +1,12 @@
 package net.masterbw3.fivedimcasting.api
 
+import at.petrak.hexcasting.api.casting.iota.DoubleIota
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.casting.mishaps.MishapNotEnoughArgs
 import net.masterbw3.fivedimcasting.api.casting.iota.CellIota
 import net.masterbw3.fivedimcasting.api.casting.iota.ContinuumIota
+import net.masterbw3.fivedimcasting.api.casting.iota.QuaternionIota
 
 fun List<Iota>.getContinuum(idx: Int, argc: Int = 0): ContinuumIota {
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
@@ -20,4 +22,14 @@ fun List<Iota>.getCell(idx: Int, argc: Int = 0): CellIota {
         return x
 
     throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "cell")
+}
+
+fun List<Iota>.getQuaternion(idx: Int, argc: Int = 0): QuaternionIota {
+    val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
+    if (x is QuaternionIota)
+        return x
+    if (x is DoubleIota)
+        return QuaternionIota(x.double, 0.0, 0.0, 0.0)
+
+    throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "quaternion")
 }

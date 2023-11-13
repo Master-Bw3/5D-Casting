@@ -13,6 +13,7 @@ import net.masterbw3.fivedimcasting.casting.actions.continuum.OpContinuumMap;
 import net.masterbw3.fivedimcasting.casting.actions.continuum.OpContinuumSlice;
 import net.masterbw3.fivedimcasting.casting.actions.continuum.OpMakeStream;
 import net.masterbw3.fivedimcasting.casting.actions.eval.OpCoolerEval;
+import net.masterbw3.fivedimcasting.casting.actions.math.OpCreateQuaternion;
 import net.masterbw3.fivedimcasting.casting.actions.spells.OpCongrats;
 import net.minecraft.util.Identifier;
 
@@ -24,6 +25,9 @@ import static net.masterbw3.fivedimcasting.api.FiveDimCastingApi.modLoc;
 
 public class FiveDimCastingActions extends HexActions {
     private static final Map<Identifier, ActionRegistryEntry> ACTIONS = new LinkedHashMap<>();
+
+    public static final ActionRegistryEntry QUATERNION_CREATE = make("quaternion/create",
+            new ActionRegistryEntry(HexPattern.fromAngles("edd", HexDir.NORTH_EAST), OpCreateQuaternion.INSTANCE));
 
     public static final ActionRegistryEntry CONGRATS = make("congrats",
             new ActionRegistryEntry(HexPattern.fromAngles("eed", HexDir.NORTH_EAST), OpCongrats.INSTANCE));
