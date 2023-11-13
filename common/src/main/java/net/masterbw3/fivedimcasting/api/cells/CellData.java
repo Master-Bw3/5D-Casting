@@ -5,8 +5,12 @@ import net.minecraft.nbt.NbtCompound;
 
 public class CellData {
     private Iota storedIota;
-
     private int lifetime;
+
+    public CellData(Iota storedIota, int lifetime) {
+        this.storedIota = storedIota;
+        this.lifetime = lifetime;
+    }
 
     public Iota getStoredIota() {
         return storedIota;
