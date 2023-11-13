@@ -4,6 +4,7 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.IotaType
 import at.petrak.hexcasting.api.casting.iota.NullIota
 import at.petrak.hexcasting.api.utils.putCompound
+import net.masterbw3.fivedimcasting.api.FiveDimCastingApi.LOGGER
 import net.masterbw3.fivedimcasting.api.FiveDimCastingApi.MOD_ID
 import net.masterbw3.fivedimcasting.api.casting.iota.CellIota
 import net.minecraft.nbt.NbtCompound
@@ -31,17 +32,20 @@ object CellManager {
     }
 
     @JvmStatic
-    fun readFromNbt(tag: NbtCompound, world: ServerWorld) {
-        if (tag.contains(TAG_CURRENT_CELL_NUM))
-            currentCellNum = tag.getInt(TAG_CURRENT_CELL_NUM)
+    fun readFromNbt(nbtCompound: NbtCompound, world: ServerWorld) {
+        LOGGER.info("Compound: " + nbtCompound)
 
-        if (tag.contains(TAG_CELLS)) {
-            val cellsTag = tag.getCompound(TAG_CELLS)
+        if (nbtCompound.contains(TAG_CURRENT_CELL_NUM))
+            currentCellNum = nbtCompound.getInt(TAG_CURRENT_CELL_NUM)
+
+        if (nbtCompound.contains(TAG_CELLS)) {
+            val cellsTag = nbtCompound.getCompound(TAG_CELLS)
 
             for (cellStr in cellsTag.keys) {
-                val cellData = CellData()
-                cellData.lifetime = cellsTag.getCompound(cellStr).getInt("lifetime")
-                cellData.storedIota = IotaType.deserialize(cellsTag.getCompound(cellStr).getCompound("stored_iota"), world)
+                val storedIota = IotaType.deserialize(cellsTag.getCompound(cellStr).getCompound("stored_iota"), world)
+                val lifetime = cellsTag.getCompound(cellStr).getInt("lifetime")
+
+                val cellData = CellData(storedIota, lifetime)
 
                 cells[cellStr.toInt()] = cellData
             }
@@ -80,9 +84,10 @@ object CellManager {
 
     @JvmStatic
     fun setStoredIota(index: Int, iota: Iota) {
-        val cellData = cells[index];
+        val cellData = cells[index]
         if (cellData != null) {
-          cellData.storedIota = iota;
+            cellData.storedIota = iota
+            cells[index] = cellData
         }
     }
 

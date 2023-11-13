@@ -22,8 +22,8 @@ object FiveDimCastingFabricInitializer : ModInitializer {
     override fun onInitialize() {
         FiveDimCastingApi.LOGGER.info("Hello Fabric World!")
 
+        initListeners()
         initRegistries()
-
         FiveDimCasting.init()
     }
 
@@ -31,13 +31,13 @@ object FiveDimCastingFabricInitializer : ModInitializer {
         ServerLifecycleEvents.SERVER_STARTED.register {
             val cellSavedData = {nbt: NbtCompound -> CellSavedData(nbt, it.overworld)}
             val savedData = it.overworld.persistentStateManager.getOrCreate(cellSavedData, ::CellSavedData, FILE_CELL_MANAGER)
-            savedData.isDirty = true
+            savedData.markDirty()
         }
         ServerLifecycleEvents.SERVER_STOPPING.register {
             val cellSavedData = {nbt: NbtCompound -> CellSavedData(nbt, it.overworld)}
             val savedData = it.overworld.persistentStateManager.getOrCreate(cellSavedData, ::CellSavedData, FILE_CELL_MANAGER)
             CellManager.shouldClearOnWrite = true
-            savedData.isDirty = true
+            savedData.markDirty()
         }
     }
 

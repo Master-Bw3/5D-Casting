@@ -13,6 +13,6 @@ object OpGetCellValue : ConstMediaAction {
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val cell = args.getCell(0, OpModifyCellValue.argc)
 
-        return listOf(CellManager.getStoredIota(cell.lifetime))
+        return listOf(CellManager.getStoredIota(cell.index))
     }
 }

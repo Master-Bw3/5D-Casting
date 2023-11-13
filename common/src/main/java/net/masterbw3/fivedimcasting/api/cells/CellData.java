@@ -1,7 +1,9 @@
 package net.masterbw3.fivedimcasting.api.cells;
 
 import at.petrak.hexcasting.api.casting.iota.Iota;
+import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import net.minecraft.nbt.NbtCompound;
+import at.petrak.hexcasting.api.casting.iota.IotaType;
 
 public class CellData {
     private Iota storedIota;
@@ -31,7 +33,7 @@ public class CellData {
     public NbtCompound serialize() {
         var nbt = new NbtCompound();
         nbt.putInt("lifetime", getLifetime());
-        nbt.put("stored_iota", getStoredIota().serialize());
+        nbt.put("stored_iota", IotaType.serialize(getStoredIota()));
         return nbt;
     }
 }
