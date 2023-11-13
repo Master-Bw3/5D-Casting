@@ -2,7 +2,15 @@
 
 package net.masterbw3.fivedimcasting.api.utils;
 
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
 public record Quaternion(double x0, double x1, double x2, double x3) {
+
+    public static Quaternion fromDouble(double x) {
+        return new Quaternion(x, 0.0, 0.0, 0.0);
+    }
+
     // return a string representation of the invoking object
     public String toString() {
         return x0 + " + " + x1 + "i + " + x2 + "j + " + x3 + "k";
@@ -22,6 +30,11 @@ public record Quaternion(double x0, double x1, double x2, double x3) {
     public Quaternion plus(Quaternion b) {
         Quaternion a = this;
         return new Quaternion(a.x0 + b.x0, a.x1 + b.x1, a.x2 + b.x2, a.x3 + b.x3);
+    }
+
+    public Quaternion minus(Quaternion b) {
+        Quaternion a = this;
+        return new Quaternion(a.x0 - b.x0, a.x1 - b.x1, a.x2 - b.x2, a.x3 - b.x3);
     }
 
 
@@ -47,6 +60,10 @@ public record Quaternion(double x0, double x1, double x2, double x3) {
     public Quaternion divides(Quaternion b) {
         Quaternion a = this;
         return a.times(b.inverse());
+    }
+
+    public Quaternion applyToEachComponent(Function<Double, Double> op) {
+        return new Quaternion(op.apply(x0), op.apply(x1), op.apply(x2), op.apply(x3));
     }
 
 }

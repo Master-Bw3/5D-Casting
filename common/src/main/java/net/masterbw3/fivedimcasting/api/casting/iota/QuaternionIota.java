@@ -27,6 +27,9 @@ public class QuaternionIota extends Iota {
         super(FiveDimCastingIotaTypes.QUATERNION, new Payload(x0, x1, x2, x3));
     }
 
+    public QuaternionIota(Quaternion quaternion) {
+        super(FiveDimCastingIotaTypes.QUATERNION, new Payload(quaternion.x0(), quaternion.x1(), quaternion.x2(), quaternion.x3()));
+    }
     public double getX0() {
         return ((Payload) this.payload).x0;
     }
