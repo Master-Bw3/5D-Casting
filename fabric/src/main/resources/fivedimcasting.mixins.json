@@ -1,0 +1,10 @@
+{
+  "minVersion": "0.8",
+  "required": true,
+  "compatibilityLevel": "JAVA_17",
+  "package": "net.masterbw3.fivedimcasting.fabric.mixin",
+  "mixins": [
+  ],
+  "client": [
+  ]
+}
