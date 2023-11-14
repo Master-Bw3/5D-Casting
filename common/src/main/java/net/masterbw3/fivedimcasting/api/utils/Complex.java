@@ -5,6 +5,8 @@ package net.masterbw3.fivedimcasting.api.utils;
 import java.util.Objects;
 
 public class Complex {
+    public static final Complex I = new Complex(0, 1);
+
     private final double re;   // the real part
     private final double im;   // the imaginary part
 
@@ -12,6 +14,11 @@ public class Complex {
     public Complex(double real, double imag) {
         re = real;
         im = imag;
+    }
+
+    public Complex(double real) {
+        re = real;
+        im = 0;
     }
 
     // return a string representation of the invoking Complex object
@@ -102,7 +109,18 @@ public class Complex {
         return sin().divides(cos());
     }
 
+    public static Complex pow(double a, Complex b) {
+        return (new Complex(Math.pow(a, b.re()))).times(new Complex(Math.cos(b.im()*Math.log(a)), Math.sin(b.im()*Math.log(a))));
 
+    }
+
+    public Complex log() {
+        return new Complex(Math.log(this.abs()), this.phase());
+    }
+
+    public Complex logBase(Complex base) {
+        return this.log().divides(base.log());
+    }
 
     // a static version of plus
     public static Complex plus(Complex a, Complex b) {
