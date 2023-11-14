@@ -6,7 +6,6 @@ import at.petrak.hexcasting.api.casting.arithmetic.engine.InvalidOperatorExcepti
 import at.petrak.hexcasting.api.casting.arithmetic.operator.Operator
 import at.petrak.hexcasting.api.casting.math.HexPattern
 import net.masterbw3.fivedimcasting.api.utils.Quaternion
-import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.quaternion.BinaryOperatorInt
 import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.quaternion.BinaryOperatorQuaternion
 import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.quaternion.UnaryOperatorQuaternion
 import kotlin.math.ceil
@@ -39,15 +38,6 @@ object QuaternionArithmetic : Arithmetic {
         ABS -> UnaryOperatorQuaternion { x -> Quaternion.fromDouble(x.norm()) }
         FLOOR -> UnaryOperatorQuaternion { x -> x.applyToEachComponent { y -> floor(y) } }
         CEIL -> UnaryOperatorQuaternion { x -> x.applyToEachComponent { y -> ceil(y) } }
-        POW -> BinaryOperatorInt { a, b ->
-            run {
-                var x = Quaternion.fromDouble(1.0)
-                repeat(b) {
-                    x *= x
-                }
-                x
-            }
-        }
 
         else -> throw InvalidOperatorException("$pattern is not a valid operator in Arithmetic $this.")
 
