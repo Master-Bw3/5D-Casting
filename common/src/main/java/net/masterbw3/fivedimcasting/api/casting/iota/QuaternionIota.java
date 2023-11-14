@@ -130,7 +130,7 @@ public class QuaternionIota extends Iota {
     };
 
     public boolean isReal() {
-        return getX1() == 0 && getX2() == 0 && getX3() == 0;
+        return getX1() == 0.0 && getX2() == 0.0 && getX3() == 0.0;
     }
 
 

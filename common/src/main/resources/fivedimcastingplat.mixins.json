@@ -4,7 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "package": "net.masterbw3.fivedimcasting.mixin",
   "mixins": [
-    "MixinGetDouble"
+    "MixinGetters"
   ],
   "client": [
   ]
