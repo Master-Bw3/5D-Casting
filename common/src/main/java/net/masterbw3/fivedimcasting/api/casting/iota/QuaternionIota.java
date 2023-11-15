@@ -33,6 +33,7 @@ public class QuaternionIota extends Iota {
     public QuaternionIota(Quaternion quaternion) {
         super(FiveDimCastingIotaTypes.QUATERNION, new Payload(quaternion.x0(), quaternion.x1(), quaternion.x2(), quaternion.x3()));
     }
+
     public double getX0() {
         return ((Payload) this.payload).x0;
     }
@@ -78,9 +79,13 @@ public class QuaternionIota extends Iota {
 
     @Override
     protected boolean toleratesOther(Iota that) {
-        return (typesMatch(this, that)
-                && that instanceof QuaternionIota dent
-                && tolerates(this.getQuaternion(), dent.getQuaternion()));
+        if (this.isReal() && that.isCastableTo(HexIotaTypes.DOUBLE)) {
+            return that.castTo(HexIotaTypes.DOUBLE).toleratesOther(this.castTo(HexIotaTypes.DOUBLE));
+        } else {
+            return (typesMatch(this, that)
+                    && that instanceof QuaternionIota dent
+                    && tolerates(this.getQuaternion(), dent.getQuaternion()));
+        }
     }
 
     public static boolean tolerates(Quaternion a, Quaternion b) {
