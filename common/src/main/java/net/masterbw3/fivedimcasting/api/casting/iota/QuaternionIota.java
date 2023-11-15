@@ -21,6 +21,7 @@ public class QuaternionIota extends Iota {
 
     public static final double TOLERANCE = 0.0001;
 
+    private List<IotaType<?>> typesCastableTo = List.of(FiveDimCastingIotaTypes.QUATERNION, HexIotaTypes.DOUBLE);
 
     private record Payload(double x0, double x1, double x2, double x3) {
     }
@@ -30,7 +31,7 @@ public class QuaternionIota extends Iota {
     }
 
     public QuaternionIota(Quaternion quaternion) {
-        super(FiveDimCastingIotaTypes.QUATERNION, List.of(FiveDimCastingIotaTypes.QUATERNION, HexIotaTypes.DOUBLE), new Payload(quaternion.x0(), quaternion.x1(), quaternion.x2(), quaternion.x3()));
+        super(FiveDimCastingIotaTypes.QUATERNION, new Payload(quaternion.x0(), quaternion.x1(), quaternion.x2(), quaternion.x3()));
     }
     public double getX0() {
         return ((Payload) this.payload).x0;
@@ -51,6 +52,11 @@ public class QuaternionIota extends Iota {
     public Quaternion getQuaternion() {
         return new Quaternion(getX0(), getX1(), getX2(), getX3());
 
+    }
+
+    @Override
+    public boolean isCastableTo(IotaType<?> iotaType) {
+        return typesCastableTo.contains(iotaType);
     }
 
     @Override
