@@ -4,6 +4,7 @@ import at.petrak.hexcasting.api.casting.iota.DoubleIota;
 import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.api.utils.HexUtils;
+import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import net.masterbw3.fivedimcasting.api.utils.Quaternion;
 import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes;
 import net.minecraft.nbt.NbtCompound;
@@ -13,6 +14,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Objects;
 
 public class QuaternionIota extends Iota {
@@ -28,7 +30,7 @@ public class QuaternionIota extends Iota {
     }
 
     public QuaternionIota(Quaternion quaternion) {
-        super(FiveDimCastingIotaTypes.QUATERNION, new Payload(quaternion.x0(), quaternion.x1(), quaternion.x2(), quaternion.x3()));
+        super(FiveDimCastingIotaTypes.QUATERNION, List.of(FiveDimCastingIotaTypes.QUATERNION, HexIotaTypes.DOUBLE), new Payload(quaternion.x0(), quaternion.x1(), quaternion.x2(), quaternion.x3()));
     }
     public double getX0() {
         return ((Payload) this.payload).x0;
@@ -49,6 +51,18 @@ public class QuaternionIota extends Iota {
     public Quaternion getQuaternion() {
         return new Quaternion(getX0(), getX1(), getX2(), getX3());
 
+    }
+
+    @Override
+    public <T extends Iota> T castTo(IotaType<T> iotaType) {
+        if (iotaType == HexIotaTypes.DOUBLE && this.isReal()) {
+            return (T) new DoubleIota(this.getX0());
+        } else if (this.getType() == iotaType) {
+            return (T) this;
+        } else {
+            throw new IllegalStateException("Attempting to downcast " + this + " to type: " + iotaType);
+
+        }
     }
 
     @Override
