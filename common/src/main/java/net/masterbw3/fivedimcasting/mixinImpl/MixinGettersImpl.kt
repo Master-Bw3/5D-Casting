@@ -9,6 +9,7 @@ import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.casting.mishaps.MishapNotEnoughArgs
 import com.mojang.datafixers.util.Either
 import net.masterbw3.fivedimcasting.api.casting.iota.QuaternionIota
+import net.minecraft.util.math.Vec3d
 import kotlin.math.abs
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
@@ -40,7 +41,7 @@ fun List<Iota>.replaceGetPositiveDouble(idx: Int, argc: Int = 0): Double {
     throw MishapInvalidIota.of(x, if (argc == 0) idx else argc - (idx + 1), "double.positive")
 }
 
-fun List<Iota>.getPositiveDoubleUnder(idx: Int, max: Double, argc: Int = 0): Double {
+fun List<Iota>.replaceGetPositiveDoubleUnder(idx: Int, max: Double, argc: Int = 0): Double {
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
     if (x is DoubleIota) {
         val double = x.double
@@ -56,7 +57,7 @@ fun List<Iota>.getPositiveDoubleUnder(idx: Int, max: Double, argc: Int = 0): Dou
     throw MishapInvalidIota.of(x, if (argc == 0) idx else argc - (idx + 1), "double.positive.less", max)
 }
 
-fun List<Iota>.getPositiveDoubleUnderInclusive(idx: Int, max: Double, argc: Int = 0): Double {
+fun List<Iota>.replaceGetPositiveDoubleUnderInclusive(idx: Int, max: Double, argc: Int = 0): Double {
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
     if (x is DoubleIota) {
         val double = x.double
@@ -72,7 +73,7 @@ fun List<Iota>.getPositiveDoubleUnderInclusive(idx: Int, max: Double, argc: Int 
     throw MishapInvalidIota.of(x, if (argc == 0) idx else argc - (idx + 1), "double.positive.less.equal", max)
 }
 
-fun List<Iota>.getDoubleBetween(idx: Int, min: Double, max: Double, argc: Int = 0): Double {
+fun List<Iota>.replaceGetDoubleBetween(idx: Int, min: Double, max: Double, argc: Int = 0): Double {
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
     if (x is DoubleIota) {
         val double = x.double
@@ -88,7 +89,7 @@ fun List<Iota>.getDoubleBetween(idx: Int, min: Double, max: Double, argc: Int = 
     throw MishapInvalidIota.of(x, if (argc == 0) idx else argc - (idx + 1), "double.between", min, max)
 }
 
-fun List<Iota>.getInt(idx: Int, argc: Int = 0): Int {
+fun List<Iota>.replaceGetInt(idx: Int, argc: Int = 0): Int {
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
     if (x is DoubleIota) {
         val double = x.double
@@ -106,7 +107,7 @@ fun List<Iota>.getInt(idx: Int, argc: Int = 0): Int {
     throw MishapInvalidIota.of(x, if (argc == 0) idx else argc - (idx + 1), "int")
 }
 
-fun List<Iota>.getLong(idx: Int, argc: Int = 0): Long {
+fun List<Iota>.replaceGetLong(idx: Int, argc: Int = 0): Long {
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
     if (x is DoubleIota) {
         val double = x.double
@@ -124,7 +125,7 @@ fun List<Iota>.getLong(idx: Int, argc: Int = 0): Long {
     throw MishapInvalidIota.of(x, if (argc == 0) idx else argc - (idx + 1), "int") // shh we're lying
 }
 
-fun List<Iota>.getPositiveInt(idx: Int, argc: Int = 0): Int {
+fun List<Iota>.replaceGetPositiveInt(idx: Int, argc: Int = 0): Int {
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
     if (x is DoubleIota) {
         val double = x.double
@@ -142,7 +143,7 @@ fun List<Iota>.getPositiveInt(idx: Int, argc: Int = 0): Int {
     throw MishapInvalidIota.of(x, if (argc == 0) idx else argc - (idx + 1), "int.positive")
 }
 
-fun List<Iota>.getPositiveIntUnder(idx: Int, max: Int, argc: Int = 0): Int {
+fun List<Iota>.replaceGetPositiveIntUnder(idx: Int, max: Int, argc: Int = 0): Int {
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
     if (x is DoubleIota) {
         val double = x.double
@@ -160,7 +161,7 @@ fun List<Iota>.getPositiveIntUnder(idx: Int, max: Int, argc: Int = 0): Int {
     throw MishapInvalidIota.of(x, if (argc == 0) idx else argc - (idx + 1), "int.positive.less", max)
 }
 
-fun List<Iota>.getPositiveIntUnderInclusive(idx: Int, max: Int, argc: Int = 0): Int {
+fun List<Iota>.replaceGetPositiveIntUnderInclusive(idx: Int, max: Int, argc: Int = 0): Int {
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
     if (x is DoubleIota) {
         val double = x.double
@@ -178,7 +179,7 @@ fun List<Iota>.getPositiveIntUnderInclusive(idx: Int, max: Int, argc: Int = 0): 
     throw MishapInvalidIota.of(x, if (argc == 0) idx else argc - (idx + 1), "int.positive.less.equal", max)
 }
 
-fun List<Iota>.getIntBetween(idx: Int, min: Int, max: Int, argc: Int = 0): Int {
+fun List<Iota>.replaceGetIntBetween(idx: Int, min: Int, max: Int, argc: Int = 0): Int {
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
     if (x is DoubleIota) {
         val double = x.double
@@ -196,7 +197,7 @@ fun List<Iota>.getIntBetween(idx: Int, min: Int, max: Int, argc: Int = 0): Int {
     throw MishapInvalidIota.of(x, if (argc == 0) idx else argc - (idx + 1), "double.between", min, max)
 }
 
-fun List<Iota>.getNumOrVec(idx: Int, argc: Int = 0): Either<Double, Vec3> {
+fun List<Iota>.replaceGetNumOrVec(idx: Int, argc: Int = 0): Either<Double, Vec3d> {
     var datum = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
     if (datum is QuaternionIota && datum.isReal) {
         datum = DoubleIota(datum.x0)
@@ -213,7 +214,7 @@ fun List<Iota>.getNumOrVec(idx: Int, argc: Int = 0): Either<Double, Vec3> {
     }
 }
 
-fun List<Iota>.getLongOrList(idx: Int, argc: Int = 0): Either<Long, SpellList> {
+fun List<Iota>.replaceGetLongOrList(idx: Int, argc: Int = 0): Either<Long, SpellList> {
     val datum = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
 
 
