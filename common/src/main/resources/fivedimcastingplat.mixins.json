@@ -4,9 +4,6 @@
   "compatibilityLevel": "JAVA_17",
   "package": "net.masterbw3.fivedimcasting.mixin",
   "mixins": [
-    "MixinGetters",
-    "MixinIotaPredicate",
-    "MixinOperator"
   ],
   "client": [
   ]
