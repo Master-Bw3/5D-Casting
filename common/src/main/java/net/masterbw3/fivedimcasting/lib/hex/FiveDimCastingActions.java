@@ -12,9 +12,7 @@ import net.masterbw3.fivedimcasting.casting.actions.continuum.OpContinuumIndex;
 import net.masterbw3.fivedimcasting.casting.actions.continuum.OpContinuumMap;
 import net.masterbw3.fivedimcasting.casting.actions.continuum.OpContinuumSlice;
 import net.masterbw3.fivedimcasting.casting.actions.continuum.OpMakeStream;
-import net.masterbw3.fivedimcasting.casting.actions.eval.OpCoolerEval;
-import net.masterbw3.fivedimcasting.casting.actions.math.OpCreateQuaternion;
-import net.masterbw3.fivedimcasting.casting.actions.spells.OpCongrats;
+import net.masterbw3.fivedimcasting.casting.actions.math.*;
 import net.minecraft.util.Identifier;
 
 import java.util.LinkedHashMap;
@@ -26,15 +24,23 @@ import static net.masterbw3.fivedimcasting.api.FiveDimCastingApi.modLoc;
 public class FiveDimCastingActions extends HexActions {
     private static final Map<Identifier, ActionRegistryEntry> ACTIONS = new LinkedHashMap<>();
 
-    public static final ActionRegistryEntry QUATERNION_CREATE = make("quaternion/create",
-            new ActionRegistryEntry(HexPattern.fromAngles("edd", HexDir.NORTH_EAST), OpCreateQuaternion.INSTANCE));
+    //math
+    public static final ActionRegistryEntry CONSTRUCT_QUATERNION = make("construct_quaternion",
+            new ActionRegistryEntry(HexPattern.fromAngles("weqqqqq", HexDir.NORTH_EAST), OpConstructQuaternion.INSTANCE));
 
-    public static final ActionRegistryEntry CONGRATS = make("congrats",
-            new ActionRegistryEntry(HexPattern.fromAngles("eed", HexDir.NORTH_EAST), OpCongrats.INSTANCE));
+    public static final ActionRegistryEntry DECONSTRUCT_QUATERNION = make("deconstruct_quaternion",
+            new ActionRegistryEntry(HexPattern.fromAngles("wqeeeee", HexDir.NORTH_EAST), OpDeconstructQuaternion.INSTANCE));
 
-    public static final ActionRegistryEntry COOLER_EVAL = make("cooler_eval",
-           new ActionRegistryEntry(HexPattern.fromAngles("eedd", HexDir.NORTH_EAST), OpCoolerEval.INSTANCE));
+    public static final ActionRegistryEntry CONSTRUCT_COMPLEX = make("construct_complex",
+            new ActionRegistryEntry(HexPattern.fromAngles("aeqqqqq", HexDir.NORTH_EAST), OpConstructComplexNumber.INSTANCE));
 
+    public static final ActionRegistryEntry DECONSTRUCT_COMPLEX = make("deconstruct_complex",
+            new ActionRegistryEntry(HexPattern.fromAngles("aqeeeee", HexDir.NORTH_EAST), OpDeconstructComplexNumber.INSTANCE));
+
+    public static final ActionRegistryEntry COERCE_DOUBLE = make("coerce_double",
+            new ActionRegistryEntry(HexPattern.fromAngles("aaqa", HexDir.NORTH_EAST), OpCoerceDouble.INSTANCE));
+
+    //streams
     public static final ActionRegistryEntry MAKE_STREAM = make("stream/make",
             new ActionRegistryEntry(HexPattern.fromAngles("aqqqaqwdaqqqaq", HexDir.NORTH_EAST), OpMakeStream.INSTANCE));
 
@@ -47,14 +53,15 @@ public class FiveDimCastingActions extends HexActions {
     public static final ActionRegistryEntry CONTINUUM_MAP = make("continuum/map",
             new ActionRegistryEntry(HexPattern.fromAngles("dad", HexDir.NORTH_EAST), OpContinuumMap.INSTANCE));
 
+    //cells
     public static final ActionRegistryEntry CELL_CREATE = make("cell/create",
-            new ActionRegistryEntry(HexPattern.fromAngles("w", HexDir.NORTH_EAST), OpCreateCell.INSTANCE));
+            new ActionRegistryEntry(HexPattern.fromAngles("ded", HexDir.NORTH_EAST), OpCreateCell.INSTANCE));
 
     public static final ActionRegistryEntry CELL_MODIFY = make("cell/get",
-            new ActionRegistryEntry(HexPattern.fromAngles("ww", HexDir.NORTH_EAST), OpGetCellValue.INSTANCE));
+            new ActionRegistryEntry(HexPattern.fromAngles("", HexDir.NORTH_EAST), OpGetCellValue.INSTANCE));
 
     public static final ActionRegistryEntry CELL_GET = make("cell/modify",
-            new ActionRegistryEntry(HexPattern.fromAngles("www", HexDir.NORTH_EAST), OpModifyCellValue.INSTANCE));
+            new ActionRegistryEntry(HexPattern.fromAngles("", HexDir.NORTH_EAST), OpModifyCellValue.INSTANCE));
 
 
     public static ActionRegistryEntry make(String name, ActionRegistryEntry are) {

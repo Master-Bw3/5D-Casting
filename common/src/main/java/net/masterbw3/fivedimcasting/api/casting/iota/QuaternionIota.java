@@ -106,17 +106,14 @@ public class QuaternionIota extends Iota {
             var out = net.minecraft.text.Text.empty();
             var quaternion = deserialize(nbtElement);
 
-            out.append(net.minecraft.text.Text.literal(Double.toString(quaternion.getX0())));
+            out.append(net.minecraft.text.Text.literal(String.format("%.2f", quaternion.getX0())));
+            out.append(net.minecraft.text.Text.literal(" + "));
+            out.append(net.minecraft.text.Text.literal(String.format("%.2f", quaternion.getX1()) + "i"));
             if (quaternion.getX2() != 0.0 || quaternion.getX3() != 0.0) {
                 out.append(net.minecraft.text.Text.literal(" + "));
-                out.append(net.minecraft.text.Text.literal(quaternion.getX1() + "i"));
+                out.append(net.minecraft.text.Text.literal(String.format("%.2f", quaternion.getX2()) + "j"));
                 out.append(net.minecraft.text.Text.literal(" + "));
-                out.append(net.minecraft.text.Text.literal(quaternion.getX2() + "j"));
-                out.append(net.minecraft.text.Text.literal(" + "));
-                out.append(net.minecraft.text.Text.literal(quaternion.getX3() + "k"));
-            } else if (quaternion.getX1() != 0.0) {
-                out.append(net.minecraft.text.Text.literal(" + "));
-                out.append(net.minecraft.text.Text.literal(quaternion.getX1() + "i"));
+                out.append(net.minecraft.text.Text.literal(String.format("%.2f", quaternion.getX3()) + "k"));
             }
 
 

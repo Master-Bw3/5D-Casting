@@ -26,3 +26,11 @@ fun Iterator<IndexedValue<Iota>>.nextComplexNumber(argc: Int = 0): Complex {
 
     throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "complex number")
 }
+
+fun Iterator<IndexedValue<Iota>>.nextRealNumber(argc: Int = 0): Double {
+    val (idx, x) = this.next()
+    if (x is QuaternionIota && x.isReal)
+        return x.x0
+    if (x is DoubleIota) return x.double
+    throw MishapInvalidIota.of(x, if (argc == 0) idx else argc - (idx + 1), "double")
+}

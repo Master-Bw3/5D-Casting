@@ -8,9 +8,10 @@ import at.petrak.hexcasting.api.casting.math.HexPattern
 import net.masterbw3.fivedimcasting.api.utils.Complex
 import net.masterbw3.fivedimcasting.api.utils.Quaternion
 import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.complex.BinaryOperatorComplex
-import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.complex.BinaryOperatorDoubleAndComplex
+import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.complex.BinaryOperatorRealAndComplex
 import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.complex.UnaryOperatorComplex
 import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.quaternion.BinaryOperatorQuaternion
+import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.quaternion.OperatorGetQuaternionComponent
 import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.quaternion.UnaryOperatorQuaternion
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -29,6 +30,7 @@ object QuaternionArithmetic : Arithmetic {
             SIN,
             COS,
             TAN,
+            INDEX,
     )
 
     override fun arithName(): String = "quaternion_ops"
@@ -46,12 +48,12 @@ object QuaternionArithmetic : Arithmetic {
         ABS -> UnaryOperatorQuaternion { x -> Quaternion.fromDouble(x.norm()) }
         FLOOR -> UnaryOperatorQuaternion { x -> x.applyToEachComponent { y -> floor(y) } }
         CEIL -> UnaryOperatorQuaternion { x -> x.applyToEachComponent { y -> ceil(y) } }
-        POW -> BinaryOperatorDoubleAndComplex {a, b -> Complex.pow(a, b)}
+        POW -> BinaryOperatorRealAndComplex {a, b -> Complex.pow(a, b)}
         LOG -> BinaryOperatorComplex {a, b -> a.logBase(b)}
         SIN -> UnaryOperatorComplex {x -> x.sin()}
         COS -> UnaryOperatorComplex {x -> x.cos()}
         TAN -> UnaryOperatorComplex {x -> x.tan()}
-
+        INDEX -> OperatorGetQuaternionComponent
 
         else -> throw InvalidOperatorException("$pattern is not a valid operator in Arithmetic $this.")
 
