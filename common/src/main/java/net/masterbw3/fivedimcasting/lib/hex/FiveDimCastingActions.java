@@ -6,8 +6,6 @@ import at.petrak.hexcasting.api.casting.math.HexDir;
 import at.petrak.hexcasting.api.casting.math.HexPattern;
 import at.petrak.hexcasting.common.lib.hex.HexActions;
 import net.masterbw3.fivedimcasting.casting.actions.cell.OpCreateCell;
-import net.masterbw3.fivedimcasting.casting.actions.cell.OpGetCellValue;
-import net.masterbw3.fivedimcasting.casting.actions.cell.OpModifyCellValue;
 import net.masterbw3.fivedimcasting.casting.actions.continuum.OpContinuumIndex;
 import net.masterbw3.fivedimcasting.casting.actions.continuum.OpContinuumMap;
 import net.masterbw3.fivedimcasting.casting.actions.continuum.OpContinuumSlice;
@@ -56,12 +54,6 @@ public class FiveDimCastingActions extends HexActions {
     //cells
     public static final ActionRegistryEntry CELL_CREATE = make("cell/create",
             new ActionRegistryEntry(HexPattern.fromAngles("ded", HexDir.NORTH_EAST), OpCreateCell.INSTANCE));
-
-    public static final ActionRegistryEntry CELL_MODIFY = make("cell/get",
-            new ActionRegistryEntry(HexPattern.fromAngles("", HexDir.NORTH_EAST), OpGetCellValue.INSTANCE));
-
-    public static final ActionRegistryEntry CELL_GET = make("cell/modify",
-            new ActionRegistryEntry(HexPattern.fromAngles("", HexDir.NORTH_EAST), OpModifyCellValue.INSTANCE));
 
 
     public static ActionRegistryEntry make(String name, ActionRegistryEntry are) {

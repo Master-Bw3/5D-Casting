@@ -1,10 +1,13 @@
 package net.masterbw3.fivedimcasting.api.casting.iota;
 
 import at.petrak.hexcasting.api.casting.SpellList;
+import at.petrak.hexcasting.api.casting.iota.DoubleIota;
 import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.api.utils.HexUtils;
+import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import net.masterbw3.fivedimcasting.FiveDimCasting;
+import net.masterbw3.fivedimcasting.api.FiveDimCastingApi;
 import net.masterbw3.fivedimcasting.api.cells.CellManager;
 import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes;
 import net.minecraft.nbt.NbtCompound;
@@ -18,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static net.masterbw3.fivedimcasting.FiveDimCasting.LOGGER;
+import static net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes.CELL;
 
 public class CellIota extends Iota {
     public static String TAG_INDEX = "index";
@@ -27,7 +31,7 @@ public class CellIota extends Iota {
     }
 
     public CellIota(int index, int lifetime) {
-        super(FiveDimCastingIotaTypes.CELL, new Payload(index, lifetime));
+        super(CELL, new Payload(index, lifetime));
     }
 
     public int getIndex() {
@@ -40,6 +44,22 @@ public class CellIota extends Iota {
 
     public Iota getStoredIota() {
         return CellManager.getStoredIota(getIndex());
+    }
+
+    @Override
+    public boolean isCastableTo(IotaType<?> iotaType) {
+        return  iotaType == this.type || getStoredIota().isCastableTo(iotaType);
+    }
+
+    @Override
+    public <T extends Iota> T castTo(IotaType<T> iotaType) {
+        if (iotaType == this.type) {
+            return (T) this;
+        } else if (this.isCastableTo(iotaType)) {
+            return this.getStoredIota().castTo(iotaType);
+        } else {
+            throw new IllegalStateException("Attempting to downcast " + this + " to type: " + iotaType);
+        }
     }
 
     @Override
@@ -83,8 +103,9 @@ public class CellIota extends Iota {
         public Text display(NbtElement nbtElement) {
             var out = Text.empty();
             var cell = deserialize(nbtElement);
+
             out.append(Text.literal("Cell(" + cell.getIndex() + ", "));
-            out.append(cell.getStoredIota().display());
+            out.append(cell.getStoredIota().getType().typeName());
             out.append(")");
 
             return out;

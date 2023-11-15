@@ -17,11 +17,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Objects;
 
+import static at.petrak.hexcasting.common.lib.hex.HexIotaTypes.DOUBLE;
+
 public class QuaternionIota extends Iota {
 
     public static final double TOLERANCE = 0.0001;
-
-    private List<IotaType<?>> typesCastableTo = List.of(FiveDimCastingIotaTypes.QUATERNION, HexIotaTypes.DOUBLE);
 
     private record Payload(double x0, double x1, double x2, double x3) {
     }
@@ -57,12 +57,12 @@ public class QuaternionIota extends Iota {
 
     @Override
     public boolean isCastableTo(IotaType<?> iotaType) {
-        return typesCastableTo.contains(iotaType);
+        return iotaType == this.type || (iotaType == DOUBLE && this.isReal());
     }
 
     @Override
     public <T extends Iota> T castTo(IotaType<T> iotaType) {
-        if (iotaType == HexIotaTypes.DOUBLE && this.isReal()) {
+        if (iotaType == DOUBLE && this.isReal()) {
             return (T) new DoubleIota(this.getX0());
         } else if (this.getType() == iotaType) {
             return (T) this;
@@ -79,8 +79,8 @@ public class QuaternionIota extends Iota {
 
     @Override
     protected boolean toleratesOther(Iota that) {
-        if (this.isReal() && that.isCastableTo(HexIotaTypes.DOUBLE)) {
-            return that.castTo(HexIotaTypes.DOUBLE).toleratesOther(this.castTo(HexIotaTypes.DOUBLE));
+        if (this.isReal() && that.isCastableTo(DOUBLE)) {
+            return that.castTo(DOUBLE).toleratesOther(this.castTo(DOUBLE));
         } else {
             return (typesMatch(this, that)
                     && that instanceof QuaternionIota dent
@@ -132,13 +132,17 @@ public class QuaternionIota extends Iota {
             var quaternion = deserialize(nbtElement);
 
             out.append(net.minecraft.text.Text.literal(String.format("%.2f", quaternion.getX0())));
-            out.append(net.minecraft.text.Text.literal(" + "));
-            out.append(net.minecraft.text.Text.literal(String.format("%.2f", quaternion.getX1()) + "i"));
             if (quaternion.getX2() != 0.0 || quaternion.getX3() != 0.0) {
+                out.append(net.minecraft.text.Text.literal(" + "));
+                out.append(net.minecraft.text.Text.literal(String.format("%.2f", quaternion.getX1()) + "i"));
                 out.append(net.minecraft.text.Text.literal(" + "));
                 out.append(net.minecraft.text.Text.literal(String.format("%.2f", quaternion.getX2()) + "j"));
                 out.append(net.minecraft.text.Text.literal(" + "));
                 out.append(net.minecraft.text.Text.literal(String.format("%.2f", quaternion.getX3()) + "k"));
+            } else if (quaternion.getX1() != 0.0) {
+                out.append(net.minecraft.text.Text.literal(" + "));
+                out.append(net.minecraft.text.Text.literal(String.format("%.2f", quaternion.getX1()) + "i"));
+
             }
 
 
