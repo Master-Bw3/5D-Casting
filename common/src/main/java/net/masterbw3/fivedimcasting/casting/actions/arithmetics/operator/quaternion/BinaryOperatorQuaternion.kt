@@ -1,6 +1,6 @@
 package net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.quaternion
 
-import at.petrak.hexcasting.api.casting.arithmetic.operator.Operator
+import at.petrak.hexcasting.api.casting.arithmetic.operator.OperatorBasic
 import at.petrak.hexcasting.api.casting.arithmetic.predicates.IotaMultiPredicate
 import at.petrak.hexcasting.api.casting.arithmetic.predicates.IotaPredicate
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
@@ -11,7 +11,7 @@ import net.masterbw3.fivedimcasting.api.utils.Quaternion
 import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.nextQuaternion
 import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes
 
-class BinaryOperatorQuaternion(val op: (a: Quaternion, b: Quaternion) -> Quaternion) : Operator(2,
+class BinaryOperatorQuaternion(val op: (a: Quaternion, b: Quaternion) -> Quaternion) : OperatorBasic(2,
         IotaMultiPredicate.all(
                 IotaPredicate.or(IotaPredicate.ofType(HexIotaTypes.DOUBLE),
                         IotaPredicate.ofType(FiveDimCastingIotaTypes.QUATERNION)

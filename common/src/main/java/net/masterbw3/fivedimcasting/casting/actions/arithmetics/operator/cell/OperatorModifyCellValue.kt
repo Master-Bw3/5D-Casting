@@ -1,6 +1,6 @@
 package net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.cell
 
-import at.petrak.hexcasting.api.casting.arithmetic.operator.Operator
+import at.petrak.hexcasting.api.casting.arithmetic.operator.OperatorBasic
 import at.petrak.hexcasting.api.casting.arithmetic.predicates.IotaMultiPredicate
 import at.petrak.hexcasting.api.casting.arithmetic.predicates.IotaPredicate
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
@@ -10,7 +10,7 @@ import net.masterbw3.fivedimcasting.api.cells.CellManager
 import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.nextCell
 import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes
 
-object OperatorModifyCellValue : Operator(2,
+object OperatorModifyCellValue : OperatorBasic(2,
     IotaMultiPredicate.Pair(
         IotaPredicate.ofType(FiveDimCastingIotaTypes.CELL),
         IotaPredicate.TRUE

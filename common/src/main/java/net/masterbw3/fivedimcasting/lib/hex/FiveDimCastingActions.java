@@ -7,8 +7,6 @@ import at.petrak.hexcasting.api.casting.math.HexPattern;
 import at.petrak.hexcasting.common.lib.hex.HexActions;
 import net.masterbw3.fivedimcasting.casting.actions.cell.OpCreateCell;
 import net.masterbw3.fivedimcasting.casting.actions.continuum.OpContinuumIndex;
-import net.masterbw3.fivedimcasting.casting.actions.continuum.OpContinuumMap;
-import net.masterbw3.fivedimcasting.casting.actions.continuum.OpContinuumSlice;
 import net.masterbw3.fivedimcasting.casting.actions.continuum.OpMakeStream;
 import net.masterbw3.fivedimcasting.casting.actions.math.*;
 import net.minecraft.util.Identifier;
@@ -45,11 +43,6 @@ public class FiveDimCastingActions extends HexActions {
     public static final ActionRegistryEntry CONTINUUM_INDEX = make("continuum/index",
             new ActionRegistryEntry(HexPattern.fromAngles("deeede", HexDir.NORTH_EAST), OpContinuumIndex.INSTANCE));
 
-    public static final ActionRegistryEntry CONTINUUM_SLICE = make("continuum/slice",
-            new ActionRegistryEntry(HexPattern.fromAngles("qaeaqwdedd", HexDir.NORTH_EAST), OpContinuumSlice.INSTANCE));
-
-    public static final ActionRegistryEntry CONTINUUM_MAP = make("continuum/map",
-            new ActionRegistryEntry(HexPattern.fromAngles("dad", HexDir.NORTH_EAST), OpContinuumMap.INSTANCE));
 
     //cells
     public static final ActionRegistryEntry CELL_CREATE = make("cell/create",

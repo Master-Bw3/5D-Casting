@@ -1,6 +1,6 @@
 package net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.complex
 
-import at.petrak.hexcasting.api.casting.arithmetic.operator.Operator
+import at.petrak.hexcasting.api.casting.arithmetic.operator.OperatorBasic
 import at.petrak.hexcasting.api.casting.arithmetic.predicates.IotaMultiPredicate
 import at.petrak.hexcasting.api.casting.arithmetic.predicates.IotaPredicate
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
@@ -11,7 +11,7 @@ import net.masterbw3.fivedimcasting.api.utils.Complex
 import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.nextComplexNumber
 import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes
 
-class UnaryOperatorComplex(val op: (x: Complex) -> Complex) : Operator(1,
+class UnaryOperatorComplex(val op: (x: Complex) -> Complex) : OperatorBasic(1,
         IotaMultiPredicate.all(
                 IotaPredicate.or(IotaPredicate.ofType(HexIotaTypes.DOUBLE),
                         IotaPredicate.ofType(FiveDimCastingIotaTypes.QUATERNION)
