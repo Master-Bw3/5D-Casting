@@ -50,10 +50,13 @@ public class CellIota extends Iota {
 
     @Override
     public <T extends Iota> Optional<T> tryCastTo(IotaType<T> iotaType) {
-        if (iotaType == this.type) {
+        if (iotaType == CELL) {
             return Optional.of((T) this);
         } else {
-            return this.getStoredIota().tryCastTo(iotaType);
+            var storedIota = this.getStoredIota();
+            if (storedIota.getType() != CELL)
+                return this.getStoredIota().tryCastTo(iotaType);
+            else return Optional.empty();
         }
     }
 
