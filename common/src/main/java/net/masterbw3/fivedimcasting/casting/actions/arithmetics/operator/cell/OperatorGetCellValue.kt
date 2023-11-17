@@ -9,12 +9,12 @@ import net.masterbw3.fivedimcasting.api.cells.CellManager
 import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.nextCell
 import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes
 
-object OperatorGetCellValue : Operator(1,
+object OperatorGetCellValue : Operator (1,
     IotaMultiPredicate.all(
         IotaPredicate.ofType(FiveDimCastingIotaTypes.CELL),
     )) {
 
-    override fun apply(iotas: MutableIterable<Iota>, env: CastingEnvironment): Iterable<Iota> {
+    override fun apply(iotas: Iterable<Iota>, env: CastingEnvironment): Iterable<Iota> {
         val it = iotas.iterator().withIndex()
 
         val cell = it.nextCell()

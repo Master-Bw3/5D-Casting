@@ -17,7 +17,7 @@ class BinaryOperatorQuaternion(val op: (a: Quaternion, b: Quaternion) -> Quatern
                         IotaPredicate.ofType(FiveDimCastingIotaTypes.QUATERNION)
                 ))) {
 
-    override fun apply(iotas: MutableIterable<Iota>, env: CastingEnvironment): Iterable<Iota> {
+    override fun apply(iotas: Iterable<Iota>, env: CastingEnvironment): Iterable<Iota> {
         val it = iotas.iterator().withIndex()
 
         val a = it.nextQuaternion()

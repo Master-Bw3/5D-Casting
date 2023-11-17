@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
 import java.util.List;
+import java.util.Optional;
 
 import static at.petrak.hexcasting.common.lib.hex.HexIotaTypes.DOUBLE;
 import static net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes.QUATERNION;
@@ -21,24 +22,19 @@ public abstract class MixinDoubleIota extends Iota {
         super(type, payload);
     }
 
-    @Shadow public abstract double getDouble();
+    @Shadow(remap = false) public abstract double getDouble();
 
     @Unique
     private final List<IotaType<?>> typesCastableTo = List.of(DOUBLE, QUATERNION);
 
     @Override
-    public boolean isCastableTo(IotaType<?> iotaType) {
-        return typesCastableTo.contains(iotaType);
-    }
-
-    @Override
-    public <T extends Iota> T castTo(IotaType<T> iotaType) {
+    public <T extends Iota> Optional<T> tryCastTo(IotaType<T> iotaType) {
         if (iotaType == QUATERNION) {
-            return (T) new QuaternionIota(this.getDouble(), 0.0, 0.0, 0.0);
+            return Optional.of((T) new QuaternionIota(this.getDouble(), 0.0, 0.0, 0.0));
         } else if (this.getType() == iotaType) {
-            return (T) this;
+            return Optional.of((T) this);
         } else {
-            throw new IllegalStateException("Attempting to downcast " + this + " to type: " + iotaType);
+            return Optional.empty();
         }
     }
 }

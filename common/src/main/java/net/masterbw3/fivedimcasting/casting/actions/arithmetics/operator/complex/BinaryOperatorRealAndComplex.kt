@@ -20,7 +20,7 @@ class BinaryOperatorRealAndComplex(val op: (a: Double, b: Complex) -> Complex) :
         IotaPredicate.or(IotaPredicate.ofType(HexIotaTypes.DOUBLE),
             IotaPredicate.ofType(FiveDimCastingIotaTypes.QUATERNION)
         ))) {
-    override fun apply(iotas: MutableIterable<Iota>, env: CastingEnvironment): Iterable<Iota> {
+    override fun apply(iotas: Iterable<Iota>, env: CastingEnvironment): Iterable<Iota> {
         val it = iotas.iterator().withIndex()
 
         val a = it.nextRealNumber()

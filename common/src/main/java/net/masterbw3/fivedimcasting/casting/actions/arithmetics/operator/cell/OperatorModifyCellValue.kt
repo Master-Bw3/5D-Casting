@@ -16,7 +16,7 @@ object OperatorModifyCellValue : Operator(2,
         IotaPredicate.TRUE
     )) {
 
-    override fun apply(iotas: MutableIterable<Iota>, env: CastingEnvironment): Iterable<Iota> {
+    override fun apply(iotas: Iterable<Iota>, env: CastingEnvironment): Iterable<Iota> {
         val it = iotas.iterator().withIndex()
 
         val cell = it.nextCell()

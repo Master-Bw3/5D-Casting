@@ -16,7 +16,7 @@ object OperatorGetQuaternionComponent : Operator(2, IotaMultiPredicate.all(
         IotaPredicate.or(IotaPredicate.ofType(HexIotaTypes.DOUBLE),
                 IotaPredicate.ofType(FiveDimCastingIotaTypes.QUATERNION)
         ))) {
-    override fun apply(iotas: MutableIterable<Iota>, env: CastingEnvironment): Iterable<Iota> {
+    override fun apply(iotas: Iterable<Iota>, env: CastingEnvironment): Iterable<Iota> {
         val it = iotas.iterator().withIndex()
 
         val quaternion = it.nextQuaternion(0)

@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static net.masterbw3.fivedimcasting.FiveDimCasting.LOGGER;
 import static net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes.CELL;
@@ -46,19 +47,13 @@ public class CellIota extends Iota {
         return CellManager.getStoredIota(getIndex());
     }
 
-    @Override
-    public boolean isCastableTo(IotaType<?> iotaType) {
-        return  iotaType == this.type || getStoredIota().isCastableTo(iotaType);
-    }
 
     @Override
-    public <T extends Iota> T castTo(IotaType<T> iotaType) {
+    public <T extends Iota> Optional<T> tryCastTo(IotaType<T> iotaType) {
         if (iotaType == this.type) {
-            return (T) this;
-        } else if (this.isCastableTo(iotaType)) {
-            return this.getStoredIota().castTo(iotaType);
+            return Optional.of((T) this);
         } else {
-            throw new IllegalStateException("Attempting to downcast " + this + " to type: " + iotaType);
+            return this.getStoredIota().tryCastTo(iotaType);
         }
     }
 

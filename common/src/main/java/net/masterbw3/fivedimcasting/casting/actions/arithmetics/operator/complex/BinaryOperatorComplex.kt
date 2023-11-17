@@ -8,9 +8,7 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes
 import net.masterbw3.fivedimcasting.api.casting.iota.QuaternionIota
 import net.masterbw3.fivedimcasting.api.utils.Complex
-import net.masterbw3.fivedimcasting.api.utils.Quaternion
 import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.nextComplexNumber
-import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.nextQuaternion
 import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes
 
 class BinaryOperatorComplex(val op: (a: Complex, b: Complex) -> Complex) : Operator(2,
@@ -19,7 +17,7 @@ class BinaryOperatorComplex(val op: (a: Complex, b: Complex) -> Complex) : Opera
                         IotaPredicate.ofType(FiveDimCastingIotaTypes.QUATERNION)
                 ))) {
 
-    override fun apply(iotas: MutableIterable<Iota>, env: CastingEnvironment): Iterable<Iota> {
+    override fun apply(iotas: Iterable<Iota>, env: CastingEnvironment): Iterable<Iota> {
         val it = iotas.iterator().withIndex()
 
         val a = it.nextComplexNumber()

@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static at.petrak.hexcasting.common.lib.hex.HexIotaTypes.DOUBLE;
 
@@ -56,16 +57,11 @@ public class QuaternionIota extends Iota {
     }
 
     @Override
-    public boolean isCastableTo(IotaType<?> iotaType) {
-        return iotaType == this.type || (iotaType == DOUBLE && this.isReal());
-    }
-
-    @Override
-    public <T extends Iota> T castTo(IotaType<T> iotaType) {
+    public <T extends Iota> Optional<T> tryCastTo(IotaType<T> iotaType) {
         if (iotaType == DOUBLE && this.isReal()) {
-            return (T) new DoubleIota(this.getX0());
+            return Optional.of((T) new DoubleIota(this.getX0()));
         } else if (this.getType() == iotaType) {
-            return (T) this;
+            return Optional.of((T) this);
         } else {
             throw new IllegalStateException("Attempting to downcast " + this + " to type: " + iotaType);
 
@@ -79,12 +75,16 @@ public class QuaternionIota extends Iota {
 
     @Override
     protected boolean toleratesOther(Iota that) {
-        if (this.isReal() && that.isCastableTo(DOUBLE)) {
-            return that.castTo(DOUBLE).toleratesOther(this.castTo(DOUBLE));
+        if ((typesMatch(this, that)
+                && that instanceof QuaternionIota dent
+                && tolerates(this.getQuaternion(), dent.getQuaternion()))) {
+            return true;
         } else {
-            return (typesMatch(this, that)
-                    && that instanceof QuaternionIota dent
-                    && tolerates(this.getQuaternion(), dent.getQuaternion()));
+            var thisDouble = this.tryCastTo(DOUBLE);
+            var thatDouble = that.tryCastTo(DOUBLE);
+            return thisDouble.isPresent()
+                    && thatDouble.isPresent()
+                    && thatDouble.get().toleratesOther(thisDouble.get());
         }
     }
 
