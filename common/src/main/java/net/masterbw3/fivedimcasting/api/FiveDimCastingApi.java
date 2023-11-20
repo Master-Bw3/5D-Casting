@@ -31,4 +31,9 @@ public interface FiveDimCastingApi
     static Identifier modLoc(String s) {
         return new Identifier(MOD_ID, s);
     }
+
+    /**
+     * Location in the userdata of the list of mutable cells
+     */
+    String MUTABLE_CELLS_USERDATA = modLoc("mutable_cells").toString();
 }

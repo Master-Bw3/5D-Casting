@@ -81,6 +81,7 @@ public class CellIota extends Iota {
         return tag;
     }
 
+
     public static IotaType<CellIota> TYPE = new IotaType<>() {
 
         private CellIota deserialize(NbtElement nbtElement) throws IllegalArgumentException {
@@ -102,7 +103,8 @@ public class CellIota extends Iota {
             var out = Text.empty();
             var cell = deserialize(nbtElement);
 
-            out.append(Text.literal("Cell(" + cell.getIndex() + ", "));
+            out.append(Text.literal("Cell("));
+            out.append(Text.literal(cell.getIndex() + ", "));
             out.append(cell.getStoredIota().getType().typeName());
             out.append(")");
 
