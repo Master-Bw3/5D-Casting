@@ -5,20 +5,20 @@ import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.casting.mishaps.MishapNotEnoughArgs
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes.DOUBLE
 import net.masterbw3.fivedimcasting.api.casting.iota.CellIota
-import net.masterbw3.fivedimcasting.api.casting.iota.ContinuumIota
+import net.masterbw3.fivedimcasting.api.casting.iota.StreamIota
 import net.masterbw3.fivedimcasting.api.utils.Complex
 import net.masterbw3.fivedimcasting.api.utils.Quaternion
 import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes.CELL
-import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes.CONTINUUM
 import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes.QUATERNION
+import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes.STREAM
 
-fun List<Iota>.getContinuum(idx: Int, argc: Int = 0): ContinuumIota {
+fun List<Iota>.getStream(idx: Int, argc: Int = 0): StreamIota {
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }
-    val iota = x.tryCastTo(CONTINUUM)
+    val iota = x.tryCastTo(STREAM)
     if (iota.isPresent)
         return iota.get()
 
-    throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "continuum")
+    throw MishapInvalidIota.ofType(x, if (argc == 0) idx else argc - (idx + 1), "stream")
 }
 
 fun List<Iota>.getCell(idx: Int, argc: Int = 0): CellIota {

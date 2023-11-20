@@ -1,4 +1,4 @@
-package net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.continuum
+package net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.stream
 
 import at.petrak.hexcasting.api.casting.SpellList
 import at.petrak.hexcasting.api.casting.arithmetic.operator.Operator
@@ -14,46 +14,36 @@ import at.petrak.hexcasting.api.casting.mishaps.MishapNotEnoughArgs
 import at.petrak.hexcasting.common.lib.hex.HexEvalSounds
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes.DOUBLE
 import net.masterbw3.fivedimcasting.api.casting.eval.vm.FrameIterate
-import net.masterbw3.fivedimcasting.api.getContinuum
-import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes.CONTINUUM
+import net.masterbw3.fivedimcasting.api.getStream
+import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes.STREAM
 
-object OperatorContinuumSlice : Operator(
-    3,
-    IotaMultiPredicate.triple(
-        IotaPredicate.ofType(CONTINUUM),
-        IotaPredicate.ofType(DOUBLE),
-        IotaPredicate.ofType(DOUBLE)
-    )
-) {
-    override fun operate(
-        env: CastingEnvironment,
-        image: CastingImage,
-        continuation: SpellContinuation
-    ): OperationResult {
+object OperatorStreamIndex : Operator(2,
+    IotaMultiPredicate.pair(IotaPredicate.ofType(STREAM), IotaPredicate.ofType(DOUBLE))
+    ) {
+    override fun operate(env: CastingEnvironment, image: CastingImage, continuation: SpellContinuation): OperationResult {
         val stack = image.stack.toMutableList()
 
-        if (stack.size < 3)
-            throw MishapNotEnoughArgs(3, stack.size)
+        if (stack.size < 2)
+            throw MishapNotEnoughArgs(2, stack.size)
 
-        val continuum = stack.getContinuum(stack.lastIndex - 2)
-        val startIndex = stack.getPositiveInt(stack.lastIndex - 1)
-        val endIndex = stack.getPositiveInt(stack.lastIndex)
-        stack.removeLastOrNull()
+        val stream = stack.getStream(stack.lastIndex - 1)
+        val index = stack.getPositiveInt(stack.lastIndex)
         stack.removeLastOrNull()
         stack.removeLastOrNull()
 
         val frame = FrameIterate(
             null,
             0U,
-            Pair(startIndex.toUInt(), (endIndex - 1).toUInt()),
-            false,
+            Pair(index.toUInt(), index.toUInt()),
+            true,
             emptyList<Iota>().toMutableList(),
-            continuum.frontVal,
-            SpellList.LList(continuum.genNextFunc),
-            continuum.maps
+            stream.frontVal,
+            SpellList.LList(stream.genNextFunc),
+            stream.maps
         )
         val image2 = image.withUsedOp().copy(stack = stack)
 
         return OperationResult(image2, listOf(), continuation.pushFrame(frame), HexEvalSounds.THOTH)
     }
+
 }

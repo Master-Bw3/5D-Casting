@@ -3,10 +3,7 @@ package net.masterbw3.fivedimcasting.api.casting.iota;
 import at.petrak.hexcasting.api.casting.SpellList;
 import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.iota.IotaType;
-import at.petrak.hexcasting.api.casting.iota.ListIota;
 import at.petrak.hexcasting.api.utils.HexUtils;
-import at.petrak.hexcasting.api.utils.NbtListBuilder;
-import net.masterbw3.fivedimcasting.FiveDimCasting;
 import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -18,12 +15,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContinuumIota extends Iota {
+public class StreamIota extends Iota {
     private record Payload(Iota frontVal, List<Iota> genNextFunc, List<SpellList> maps) {
     }
 
-    public ContinuumIota(Iota frontVal, List<Iota> genNextFunc, List<SpellList> maps) {
-        super(FiveDimCastingIotaTypes.CONTINUUM, new Payload(frontVal, genNextFunc, maps));
+    public StreamIota(Iota frontVal, List<Iota> genNextFunc, List<SpellList> maps) {
+        super(FiveDimCastingIotaTypes.STREAM, new Payload(frontVal, genNextFunc, maps));
     }
 
     public Iota getFrontVal() {
@@ -76,9 +73,9 @@ public class ContinuumIota extends Iota {
         return tag;
     }
 
-    public static IotaType<ContinuumIota> TYPE = new IotaType<>() {
+    public static IotaType<StreamIota> TYPE = new IotaType<>() {
         @Override
-        public ContinuumIota deserialize(NbtElement tag, ServerWorld world) throws IllegalArgumentException {
+        public StreamIota deserialize(NbtElement tag, ServerWorld world) throws IllegalArgumentException {
             var ctag = HexUtils.downcast(tag, NbtCompound.TYPE);
 
             var frontValNBT = ctag.getCompound("front_val");
@@ -108,12 +105,12 @@ public class ContinuumIota extends Iota {
             }
 
 
-            return new ContinuumIota(frontVal, genNextFunc, maps);
+            return new StreamIota(frontVal, genNextFunc, maps);
         }
 
         @Override
         public Text display(NbtElement nbtElement) {
-            return Text.literal("Continuum");
+            return Text.translatable("Stream");
         }
 
         @Override

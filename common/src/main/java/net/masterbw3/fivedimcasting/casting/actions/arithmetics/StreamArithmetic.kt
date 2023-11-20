@@ -4,10 +4,10 @@ import at.petrak.hexcasting.api.casting.arithmetic.Arithmetic
 import at.petrak.hexcasting.api.casting.arithmetic.engine.InvalidOperatorException
 import at.petrak.hexcasting.api.casting.arithmetic.operator.Operator
 import at.petrak.hexcasting.api.casting.math.HexPattern
-import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.continuum.OperatorContinuumIndex
-import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.continuum.OperatorContinuumSlice
+import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.stream.OperatorStreamIndex
+import net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.stream.OperatorStreamSlice
 
-object ContinuumArithmetic : Arithmetic {
+object StreamArithmetic : Arithmetic {
     private val OPS = listOf(
         Arithmetic.INDEX,
         Arithmetic.SLICE
@@ -21,8 +21,8 @@ object ContinuumArithmetic : Arithmetic {
 
     override fun getOperator(pattern: HexPattern?): Operator = when (pattern) {
 
-        Arithmetic.INDEX -> OperatorContinuumIndex
-        Arithmetic.SLICE -> OperatorContinuumSlice
+        Arithmetic.INDEX -> OperatorStreamIndex
+        Arithmetic.SLICE -> OperatorStreamSlice
         else -> throw InvalidOperatorException("$pattern is not a valid operator in Arithmetic $this.")
 
     }

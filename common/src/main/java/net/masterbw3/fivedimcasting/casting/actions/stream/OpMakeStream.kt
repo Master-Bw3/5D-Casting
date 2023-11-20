@@ -1,10 +1,10 @@
-package net.masterbw3.fivedimcasting.casting.actions.continuum
+package net.masterbw3.fivedimcasting.casting.actions.stream
 
 import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.getList
 import at.petrak.hexcasting.api.casting.iota.Iota
-import net.masterbw3.fivedimcasting.api.casting.iota.ContinuumIota
+import net.masterbw3.fivedimcasting.api.casting.iota.StreamIota
 
 
 object OpMakeStream : ConstMediaAction {
@@ -15,7 +15,13 @@ object OpMakeStream : ConstMediaAction {
         val initialIota = args[0]
         val genNextCode = args.getList(1, argc).toMutableList()
 
-        return listOf(ContinuumIota(initialIota, genNextCode, emptyList()));
+        return listOf(
+            StreamIota(
+                initialIota,
+                genNextCode,
+                emptyList()
+            )
+        );
     }
 
 

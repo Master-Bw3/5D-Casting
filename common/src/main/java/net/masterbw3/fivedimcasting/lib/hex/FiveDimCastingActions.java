@@ -6,8 +6,7 @@ import at.petrak.hexcasting.api.casting.math.HexDir;
 import at.petrak.hexcasting.api.casting.math.HexPattern;
 import at.petrak.hexcasting.common.lib.hex.HexActions;
 import net.masterbw3.fivedimcasting.casting.actions.cell.OpCreateCell;
-import net.masterbw3.fivedimcasting.casting.actions.continuum.OpContinuumIndex;
-import net.masterbw3.fivedimcasting.casting.actions.continuum.OpMakeStream;
+import net.masterbw3.fivedimcasting.casting.actions.stream.OpMakeStream;
 import net.masterbw3.fivedimcasting.casting.actions.math.*;
 import net.minecraft.util.Identifier;
 
@@ -39,10 +38,6 @@ public class FiveDimCastingActions extends HexActions {
     //streams
     public static final ActionRegistryEntry MAKE_STREAM = make("stream/make",
             new ActionRegistryEntry(HexPattern.fromAngles("aqqqaqwdaqqqaq", HexDir.NORTH_EAST), OpMakeStream.INSTANCE));
-
-    public static final ActionRegistryEntry CONTINUUM_INDEX = make("continuum/index",
-            new ActionRegistryEntry(HexPattern.fromAngles("deeede", HexDir.NORTH_EAST), OpContinuumIndex.INSTANCE));
-
 
     //cells
     public static final ActionRegistryEntry CELL_CREATE = make("cell/create",

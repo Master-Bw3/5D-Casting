@@ -3,8 +3,8 @@ package net.masterbw3.fivedimcasting.lib.hex
 import at.petrak.hexcasting.api.casting.arithmetic.Arithmetic
 import net.masterbw3.fivedimcasting.api.FiveDimCastingApi.modLoc
 import net.masterbw3.fivedimcasting.casting.actions.arithmetics.CellArithmetic
-import net.masterbw3.fivedimcasting.casting.actions.arithmetics.ContinuumArithmetic
 import net.masterbw3.fivedimcasting.casting.actions.arithmetics.QuaternionArithmetic
+import net.masterbw3.fivedimcasting.casting.actions.arithmetics.StreamArithmetic
 import net.minecraft.util.Identifier
 import java.util.function.BiConsumer
 
@@ -22,7 +22,7 @@ object FiveDimCastingArithmetics {
 
     val CELL: CellArithmetic = make("cell", CellArithmetic)
 
-    val CONTINUUM: ContinuumArithmetic = make("continuum", ContinuumArithmetic)
+    val STREAM: StreamArithmetic = make("stream", StreamArithmetic)
 
     private fun <T : Arithmetic> make(name: String, arithmetic: T): T {
         val old = ARITHMETICS.put(modLoc(name), arithmetic)

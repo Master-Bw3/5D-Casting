@@ -4,8 +4,8 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.IotaType
 import net.masterbw3.fivedimcasting.api.FiveDimCastingApi.modLoc
 import net.masterbw3.fivedimcasting.api.casting.iota.CellIota
-import net.masterbw3.fivedimcasting.api.casting.iota.ContinuumIota
 import net.masterbw3.fivedimcasting.api.casting.iota.QuaternionIota
+import net.masterbw3.fivedimcasting.api.casting.iota.StreamIota
 import net.minecraft.util.Identifier
 import org.jetbrains.annotations.ApiStatus
 import java.util.function.BiConsumer
@@ -22,7 +22,7 @@ object FiveDimCastingIotaTypes {
     private val TYPES: MutableMap<Identifier, IotaType<*>> = LinkedHashMap()
 
     @JvmField
-    val CONTINUUM: IotaType<ContinuumIota> = type("continuum", ContinuumIota.TYPE)
+    val STREAM: IotaType<StreamIota> = type("stream", StreamIota.TYPE)
 
     @JvmField
     val CELL: IotaType<CellIota> = type("cell", CellIota.TYPE)
