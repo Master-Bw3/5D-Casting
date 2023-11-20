@@ -57,6 +57,7 @@ public class FiveDimCastingActions extends HexActions {
         return are;
     }
 
+
     public static ActionRegistryEntry make(String name, OperationAction oa) {
         var are = new ActionRegistryEntry(oa.getPattern(), oa);
         var old = ACTIONS.put(modLoc(name), are);

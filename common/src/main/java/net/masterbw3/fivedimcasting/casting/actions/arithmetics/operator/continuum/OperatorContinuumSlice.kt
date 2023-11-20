@@ -1,4 +1,4 @@
-package net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.Continuum
+package net.masterbw3.fivedimcasting.casting.actions.arithmetics.operator.continuum
 
 import at.petrak.hexcasting.api.casting.SpellList
 import at.petrak.hexcasting.api.casting.arithmetic.operator.Operator
