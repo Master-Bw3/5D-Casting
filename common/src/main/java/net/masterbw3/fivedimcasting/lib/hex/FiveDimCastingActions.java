@@ -8,6 +8,7 @@ import at.petrak.hexcasting.common.lib.hex.HexActions;
 import net.masterbw3.fivedimcasting.casting.actions.cell.OpCreateCell;
 import net.masterbw3.fivedimcasting.casting.actions.stream.OpMakeStream;
 import net.masterbw3.fivedimcasting.casting.actions.math.*;
+import net.masterbw3.fivedimcasting.casting.actions.stream.OpStreamMap;
 import net.minecraft.util.Identifier;
 
 import java.util.LinkedHashMap;
@@ -38,6 +39,10 @@ public class FiveDimCastingActions extends HexActions {
     //streams
     public static final ActionRegistryEntry MAKE_STREAM = make("stream/make",
             new ActionRegistryEntry(HexPattern.fromAngles("aqqqaqwdaqqqaq", HexDir.NORTH_EAST), OpMakeStream.INSTANCE));
+
+    public static final ActionRegistryEntry STREAM_MAP = make("stream/map",
+            new ActionRegistryEntry(HexPattern.fromAngles("dad", HexDir.NORTH_EAST), OpStreamMap.INSTANCE));
+
 
     //cells
     public static final ActionRegistryEntry CELL_CREATE = make("cell/create",

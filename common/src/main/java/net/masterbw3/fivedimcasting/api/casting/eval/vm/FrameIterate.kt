@@ -42,7 +42,7 @@ data class FrameIterate(
         if (index >= collect.first && index <= collect.second) {
             //if index in collect range, push top of stack to accumulator
             if (baseStack == null) {
-                //on first just push the inital value
+                //on first just push the initial value
                 newAcc.add(initialIota)
             } else {
                 //else push top of stack (or null if stack is empty)
@@ -51,7 +51,7 @@ data class FrameIterate(
             }
         }
 
-        var newBaseStack = baseStack ?: harness.image.stack
+        val newBaseStack = baseStack ?: harness.image.stack
 
         if (index >= collect.second) {
             //if frame is last in range, apply maps
@@ -90,7 +90,7 @@ data class FrameIterate(
             }
 
         } else {
-            var result = if (baseStack == null) {
+            val result = if (baseStack == null) {
                 initialIota
             } else {
                 getStackTop(harness)
