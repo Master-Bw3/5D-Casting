@@ -63,8 +63,7 @@ public class QuaternionIota extends Iota {
         } else if (this.getType() == iotaType) {
             return Optional.of((T) this);
         } else {
-            throw new IllegalStateException("Attempting to downcast " + this + " to type: " + iotaType);
-
+            return Optional.empty();
         }
     }
 
