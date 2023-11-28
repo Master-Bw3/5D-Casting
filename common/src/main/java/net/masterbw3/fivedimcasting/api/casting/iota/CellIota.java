@@ -65,8 +65,8 @@ public class CellIota extends Iota {
     @Override
     public @NotNull NbtElement serialize() {
         var tag = new NbtCompound();
-        tag.putInt("index", getIndex());
-        tag.putInt("lifetime", getLifetime());
+        tag.putInt(TAG_INDEX, getIndex());
+        tag.putInt(TAG_LIFETIME, getLifetime());
 
         return tag;
     }
@@ -77,8 +77,8 @@ public class CellIota extends Iota {
         private CellIota deserialize(NbtElement nbtElement) throws IllegalArgumentException {
             var ctag = HexUtils.downcast(nbtElement, NbtCompound.TYPE);
 
-            var index = ctag.getInt("index");
-            var lifetime = ctag.getInt("lifetime");
+            var index = ctag.getInt(TAG_INDEX);
+            var lifetime = ctag.getInt(TAG_LIFETIME);
 
             return new CellIota(index, lifetime);
         }
