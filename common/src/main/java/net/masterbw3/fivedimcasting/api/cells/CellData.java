@@ -1,7 +1,6 @@
 package net.masterbw3.fivedimcasting.api.cells;
 
 import at.petrak.hexcasting.api.casting.iota.Iota;
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import net.minecraft.nbt.NbtCompound;
 import at.petrak.hexcasting.api.casting.iota.IotaType;
 
