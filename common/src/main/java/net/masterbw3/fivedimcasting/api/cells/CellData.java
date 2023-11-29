@@ -5,12 +5,15 @@ import net.minecraft.nbt.NbtCompound;
 import at.petrak.hexcasting.api.casting.iota.IotaType;
 
 public class CellData {
-    private Iota storedIota;
-    private int lifetime;
+    public static final String TAG_EXPIRATION_TIMESTAMP = "$MOD_ID:expiration_timestamp";
+    public static final String TAG_STORED_IOTA = "$MOD_ID:stored_iota";
 
-    public CellData(Iota storedIota, int lifetime) {
+    private Iota storedIota;
+    private long expirationTimestamp;
+
+    public CellData(Iota storedIota, long lifetime) {
         this.storedIota = storedIota;
-        this.lifetime = lifetime;
+        this.expirationTimestamp = lifetime;
     }
 
     public Iota getStoredIota() {
@@ -21,18 +24,18 @@ public class CellData {
         this.storedIota = storedIota;
     }
 
-    public int getLifetime() {
-        return lifetime;
+    public long getExpirationTimestamp() {
+        return expirationTimestamp;
     }
 
-    public void setLifetime(int lifetime) {
-        this.lifetime = lifetime;
+    public void setExpirationTimestamp(int lifetime) {
+        this.expirationTimestamp = lifetime;
     }
 
     public NbtCompound serialize() {
         var nbt = new NbtCompound();
-        nbt.putInt("lifetime", getLifetime());
-        nbt.put("stored_iota", IotaType.serialize(getStoredIota()));
+        nbt.putLong(TAG_EXPIRATION_TIMESTAMP, getExpirationTimestamp());
+        nbt.put(TAG_STORED_IOTA, IotaType.serialize(getStoredIota()));
         return nbt;
     }
 }

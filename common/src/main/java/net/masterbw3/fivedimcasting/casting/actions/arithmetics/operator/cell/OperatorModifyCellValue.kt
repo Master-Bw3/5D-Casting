@@ -23,15 +23,20 @@ object OperatorModifyCellValue : Operator(2,
         IotaPredicate.TRUE
     )) {
 
-    fun apply(iotas: Iterable<Iota>, mutableCells: IntArray): Pair<Iterable<Iota>, IntArray> {
+    fun apply(iotas: Iterable<Iota>, mutableCells: IntArray, env: CastingEnvironment): Pair<Iterable<Iota>, IntArray> {
         val it = iotas.iterator().withIndex()
 
         val cell = it.nextCell()
         val iota = it.next().value
         val newMutableCells = mutableCells.toMutableList()
 
+        CellManager.updateExpiredCells(env.world)
 
-        if (CellManager.isCellStored(cell.index)) {
+        if (CellManager.isCellExpired(cell.index)) {
+            //TODO: make a new mishap for this
+            throw MishapCantMutateCell()
+        }
+        else if (CellManager.isCellStored(cell.index)) {
             if (mutableCells.contains(cell.index)) {
                 CellManager.setStoredIota(cell.index, iota)
             } else {
@@ -40,7 +45,9 @@ object OperatorModifyCellValue : Operator(2,
                 throw MishapCantMutateCell()
             }
         } else {
-            CellManager.addToCells(cell.index, CellData(iota, cell.lifetime))
+            //cell was never written to before and should be added to CellManager
+
+            CellManager.addToCells(cell.index, CellData(iota, cell.lifetime + env.world.time))
             newMutableCells.add(cell.index)
         }
         return Pair(listOf(cell), newMutableCells.toIntArray())
@@ -61,7 +68,7 @@ object OperatorModifyCellValue : Operator(2,
             IntArray(0)
         }
 
-        val (ret, newMutableCells) = apply(args, mutableCells)
+        val (ret, newMutableCells) = apply(args, mutableCells, env)
         ret.forEach(Consumer { e: Iota -> stack.add(e) })
 
         image.userData.putIntArray(MUTABLE_CELLS_USERDATA, newMutableCells)

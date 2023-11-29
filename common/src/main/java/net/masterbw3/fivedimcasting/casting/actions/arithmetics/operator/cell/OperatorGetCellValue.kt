@@ -19,6 +19,7 @@ object OperatorGetCellValue : OperatorBasic(1,
 
         val cell = it.nextCell()
 
+        CellManager.updateExpiredCells(env.world)
         return listOf(CellManager.getStoredIota(cell.index))
     }
 }
