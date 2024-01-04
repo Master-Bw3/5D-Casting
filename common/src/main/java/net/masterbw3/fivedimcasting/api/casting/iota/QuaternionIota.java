@@ -4,7 +4,7 @@ import at.petrak.hexcasting.api.casting.iota.DoubleIota;
 import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.api.utils.HexUtils;
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
+import net.masterbw3.fivedimcasting.mixinImpl.IMixinIota;
 import net.masterbw3.fivedimcasting.api.utils.Quaternion;
 import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes;
 import net.minecraft.nbt.NbtCompound;
@@ -14,13 +14,12 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import static at.petrak.hexcasting.common.lib.hex.HexIotaTypes.DOUBLE;
 
-public class QuaternionIota extends Iota {
+public class QuaternionIota extends Iota implements IMixinIota {
 
     public static final double TOLERANCE = 0.0001;
 
@@ -80,7 +79,7 @@ public class QuaternionIota extends Iota {
             return true;
         } else {
             var thisDouble = this.tryCastTo(DOUBLE);
-            var thatDouble = that.tryCastTo(DOUBLE);
+            var thatDouble = ((IMixinIota) that).tryCastTo(DOUBLE);
             return thisDouble.isPresent()
                     && thatDouble.isPresent()
                     && thatDouble.get().toleratesOther(thisDouble.get());

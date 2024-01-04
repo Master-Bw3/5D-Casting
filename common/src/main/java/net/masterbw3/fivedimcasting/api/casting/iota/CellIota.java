@@ -1,30 +1,21 @@
 package net.masterbw3.fivedimcasting.api.casting.iota;
 
-import at.petrak.hexcasting.api.casting.SpellList;
-import at.petrak.hexcasting.api.casting.iota.DoubleIota;
 import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.api.utils.HexUtils;
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
-import net.masterbw3.fivedimcasting.FiveDimCasting;
-import net.masterbw3.fivedimcasting.api.FiveDimCastingApi;
+import net.masterbw3.fivedimcasting.mixinImpl.IMixinIota;
 import net.masterbw3.fivedimcasting.api.cells.CellManager;
-import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-import static net.masterbw3.fivedimcasting.FiveDimCasting.LOGGER;
 import static net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes.CELL;
 
-public class CellIota extends Iota {
+public class CellIota extends Iota implements IMixinIota {
     public static String TAG_INDEX = "index";
     public static String TAG_LIFETIME = "lifetime";
 
@@ -55,7 +46,7 @@ public class CellIota extends Iota {
         } else {
             var storedIota = this.getStoredIota();
             if (storedIota.getType() != CELL)
-                return this.getStoredIota().tryCastTo(iotaType);
+                return ((IMixinIota) this.getStoredIota()).tryCastTo(iotaType);
             else return Optional.empty();
         }
     }

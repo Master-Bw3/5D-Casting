@@ -4,7 +4,7 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.casting.mishaps.MishapNotEnoughArgs
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes.DOUBLE
-import net.masterbw3.fivedimcasting.IMixinIota
+import net.masterbw3.fivedimcasting.mixinImpl.IMixinIota
 import net.masterbw3.fivedimcasting.api.casting.iota.CellIota
 import net.masterbw3.fivedimcasting.api.casting.iota.StreamIota
 import net.masterbw3.fivedimcasting.api.utils.Complex

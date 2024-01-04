@@ -2,7 +2,7 @@ package net.masterbw3.fivedimcasting.mixin;
 
 import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.iota.IotaType;
-import net.masterbw3.fivedimcasting.IMixinIota;
+import net.masterbw3.fivedimcasting.mixinImpl.IMixinIota;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
@@ -19,6 +19,6 @@ public abstract class MixinIota implements IMixinIota {
             return Optional.of((T) (Object) this);
     }
 
-    @Shadow
-    abstract IotaType<?> getType();
+    @Shadow(remap = false)
+    public abstract IotaType<?> getType();
 }
