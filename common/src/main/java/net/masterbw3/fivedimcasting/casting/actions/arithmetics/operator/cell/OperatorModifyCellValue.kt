@@ -30,7 +30,7 @@ object OperatorModifyCellValue : Operator(2,
         val iota = it.next().value
         val newMutableCells = mutableCells.toMutableList()
 
-        CellManager.updateExpiredCells(env.world)
+        CellManager.removeExpiredCells(env.world)
 
         if (CellManager.isCellExpired(cell.index)) {
             //TODO: make a new mishap for this
@@ -46,6 +46,7 @@ object OperatorModifyCellValue : Operator(2,
             }
         } else {
             //cell was never written to before and should be added to CellManager
+            CellManager.uninitializedCells.remove(cell.index)
 
             CellManager.addToCells(cell.index, CellData(iota, cell.lifetime + env.world.time))
             newMutableCells.add(cell.index)

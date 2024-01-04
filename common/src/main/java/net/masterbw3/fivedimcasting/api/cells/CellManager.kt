@@ -4,7 +4,6 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.IotaType
 import at.petrak.hexcasting.api.casting.iota.NullIota
 import at.petrak.hexcasting.api.utils.putCompound
-import net.masterbw3.fivedimcasting.api.FiveDimCastingApi.LOGGER
 import net.masterbw3.fivedimcasting.api.FiveDimCastingApi.MOD_ID
 import net.masterbw3.fivedimcasting.api.casting.iota.CellIota
 import net.masterbw3.fivedimcasting.api.cells.CellData.TAG_EXPIRATION_TIMESTAMP
@@ -15,8 +14,9 @@ import net.minecraft.server.world.ServerWorld
 object CellManager {
     private const val TAG_CURRENT_CELL_NUM = "$MOD_ID:current_cell_num"
     private const val TAG_CELLS = "$MOD_ID:cells"
-    private const val TAG_EXPIRED_CELLS = "$MOD_ID:expired_cells"
+    private const val TAG_UNINITIALIZED_CELLS = "$MOD_ID:uninitialized_cells"
 
+    private const val MAX_UNINITIALIZED_CELL_COUNT = 500_000;
 
     private var currentCellNum = 0
 
@@ -25,7 +25,7 @@ object CellManager {
 
     var cells: MutableMap<Int, CellData> = mutableMapOf()
 
-    var expiredCells: MutableList<Int> = mutableListOf();
+    var uninitializedCells: MutableList<Int> = mutableListOf();
 
 
     @JvmStatic
@@ -38,6 +38,16 @@ object CellManager {
     @JvmStatic
     fun addToCells(index: Int, cellData: CellData) {
         cells.put(index, cellData)
+    }
+
+    @JvmStatic
+    fun addToUninitializedCells(index: Int) {
+        //this is just to prevent someone from creating a memory leak by spamming cell creation
+        if (uninitializedCells.size >= MAX_UNINITIALIZED_CELL_COUNT) {
+            uninitializedCells.remove(0)
+        }
+
+        uninitializedCells.add(index)
     }
 
     @JvmStatic
@@ -59,8 +69,8 @@ object CellManager {
             }
         }
 
-        if (nbtCompound.contains(TAG_EXPIRED_CELLS)) {
-            expiredCells = nbtCompound.getIntArray(TAG_EXPIRED_CELLS).toMutableList()
+        if (nbtCompound.contains(TAG_UNINITIALIZED_CELLS)) {
+            uninitializedCells = nbtCompound.getIntArray(TAG_UNINITIALIZED_CELLS).toMutableList()
         }
     }
 
@@ -74,7 +84,7 @@ object CellManager {
         }
         nbt.putCompound(TAG_CELLS, cellsTag)
 
-        nbt.putIntArray(TAG_EXPIRED_CELLS, expiredCells)
+        nbt.putIntArray(TAG_UNINITIALIZED_CELLS, uninitializedCells)
 
         if (shouldClearOnWrite) {
             currentCellNum = 0
@@ -110,14 +120,13 @@ object CellManager {
 
     @JvmStatic
     fun isCellExpired(index: Int): Boolean {
-        return expiredCells.contains(index)
+        return !uninitializedCells.contains(index) && !cells.contains(index)
     }
 
     @JvmStatic
-    fun updateExpiredCells(world: ServerWorld) {
+    fun removeExpiredCells(world: ServerWorld) {
         val gameTime = world.time;
 
-        expiredCells.addAll(cells.filterValues { it.expirationTimestamp < gameTime }.keys)
         cells = cells.filterValues { it.expirationTimestamp >= gameTime } as MutableMap
     }
 

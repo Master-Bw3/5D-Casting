@@ -14,9 +14,9 @@ object OpCreateCell : VariableMediaAction {
         val lifetime = args.getPositiveInt(0, argc)
 
         val cell = CellManager.makeCell(lifetime)
+        CellManager.addToUninitializedCells(cell.index)
 
         val mediaCost = lifetime.toLong()
-
         return Pair(listOf(cell), mediaCost)
     }
 }
