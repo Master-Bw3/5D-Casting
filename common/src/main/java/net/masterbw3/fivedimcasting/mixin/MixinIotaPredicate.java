@@ -29,6 +29,6 @@ public class MixinIotaPredicate implements IotaPredicate {
     @Overwrite(remap = false)
     public boolean test(Iota iota) {
         FiveDimCasting.LOGGER.info("testing");
-        return ((IMixinIota) iota).tryCastTo(this.type).isPresent() || ((IMixinIota) this).tryCastTo(iota.getType()).isPresent();
+        return ((IMixinIota) (Object) iota).tryCastTo(this.type).isPresent();
     }
 }

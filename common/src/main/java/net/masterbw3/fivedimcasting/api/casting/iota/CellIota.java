@@ -46,7 +46,7 @@ public class CellIota extends Iota implements IMixinIota {
         } else {
             var storedIota = this.getStoredIota();
             if (storedIota.getType() != CELL)
-                return ((IMixinIota) this.getStoredIota()).tryCastTo(iotaType);
+                return ((IMixinIota) (Object) this.getStoredIota()).tryCastTo(iotaType);
             else return Optional.empty();
         }
     }

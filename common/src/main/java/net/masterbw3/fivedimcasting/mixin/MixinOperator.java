@@ -16,7 +16,7 @@ public class MixinOperator {
      */
     @Overwrite(remap = false)
     public final <T extends Iota> T downcast(Iota iota, IotaType<T> iotaType) {
-        var x = ((IMixinIota) iota).tryCastTo(iotaType);
+        var x = ((IMixinIota) (Object) iota).tryCastTo(iotaType);
         if (x.isPresent()) {
             return x.get();
         } else {

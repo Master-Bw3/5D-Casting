@@ -8,7 +8,6 @@
     "MixinGetters",
     "MixinIota",
     "MixinIotaPredicate",
-    "MixinNext",
     "MixinOperator"
   ],
   "client": [
