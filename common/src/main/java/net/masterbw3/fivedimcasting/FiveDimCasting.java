@@ -16,7 +16,6 @@ public class FiveDimCasting {
 
 
     public static void init() {
-        LOGGER.info("5D Casting says hello!");
     }
 
 

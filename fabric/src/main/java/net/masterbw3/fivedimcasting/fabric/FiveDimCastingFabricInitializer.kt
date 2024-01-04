@@ -22,7 +22,6 @@ object FiveDimCastingFabricInitializer : ModInitializer {
 
 
     override fun onInitialize() {
-        FiveDimCastingApi.LOGGER.info("Hello Fabric World!")
 
         initListeners()
         initRegistries()

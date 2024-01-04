@@ -33,7 +33,6 @@ object CellManager {
 
     @JvmStatic
     fun readFromNbt(nbtCompound: NbtCompound, world: ServerWorld) {
-        LOGGER.info("Compound: " + nbtCompound)
 
         if (nbtCompound.contains(TAG_CURRENT_CELL_NUM))
             currentCellNum = nbtCompound.getInt(TAG_CURRENT_CELL_NUM)
