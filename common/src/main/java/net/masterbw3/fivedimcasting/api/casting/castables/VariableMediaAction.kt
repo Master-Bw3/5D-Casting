@@ -10,7 +10,6 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.mishaps.MishapNotEnoughArgs
 import at.petrak.hexcasting.common.lib.hex.HexEvalSounds
 
-
 interface VariableMediaAction : Action {
     val argc: Int
     val mediaCost: Long
