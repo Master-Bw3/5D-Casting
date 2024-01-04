@@ -7,21 +7,30 @@ import at.petrak.hexcasting.api.utils.putCompound
 import net.masterbw3.fivedimcasting.api.FiveDimCastingApi.LOGGER
 import net.masterbw3.fivedimcasting.api.FiveDimCastingApi.MOD_ID
 import net.masterbw3.fivedimcasting.api.casting.iota.CellIota
+import net.masterbw3.fivedimcasting.api.cells.CellData.TAG_EXPIRATION_TIMESTAMP
+import net.masterbw3.fivedimcasting.api.cells.CellData.TAG_STORED_IOTA
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.world.ServerWorld
 
 object CellManager {
+    private const val TAG_CURRENT_CELL_NUM = "$MOD_ID:current_cell_num"
+    private const val TAG_CELLS = "$MOD_ID:cells"
+    private const val TAG_EXPIRED_CELLS = "$MOD_ID:expired_cells"
+
+
     private var currentCellNum = 0
 
     @JvmField
     var shouldClearOnWrite = false
 
-    val cells: MutableMap<Int, CellData> = mutableMapOf()
+    var cells: MutableMap<Int, CellData> = mutableMapOf()
+
+    var expiredCells: MutableList<Int> = mutableListOf();
 
 
     @JvmStatic
-    fun makeCell(lifetime: Int): CellIota {
-        val cell = CellIota(currentCellNum, lifetime)
+    fun makeCell(expirationTimestamp: Int): CellIota {
+        val cell = CellIota(currentCellNum, expirationTimestamp)
         currentCellNum += 1
         return cell
     }
@@ -41,13 +50,17 @@ object CellManager {
             val cellsTag = nbtCompound.getCompound(TAG_CELLS)
 
             for (cellStr in cellsTag.keys) {
-                val storedIota = IotaType.deserialize(cellsTag.getCompound(cellStr).getCompound("stored_iota"), world)
-                val lifetime = cellsTag.getCompound(cellStr).getInt("lifetime")
+                val storedIota = IotaType.deserialize(cellsTag.getCompound(cellStr).getCompound(TAG_STORED_IOTA), world)
+                val expirationTimestamp = cellsTag.getCompound(cellStr).getLong(TAG_EXPIRATION_TIMESTAMP)
 
-                val cellData = CellData(storedIota, lifetime)
+                val cellData = CellData(storedIota, expirationTimestamp)
 
                 cells[cellStr.toInt()] = cellData
             }
+        }
+
+        if (nbtCompound.contains(TAG_EXPIRED_CELLS)) {
+            expiredCells = nbtCompound.getIntArray(TAG_EXPIRED_CELLS).toMutableList()
         }
     }
 
@@ -56,12 +69,12 @@ object CellManager {
         nbt.putInt(TAG_CURRENT_CELL_NUM, currentCellNum)
 
         val cellsTag = NbtCompound()
-
         for ((cell, cellData) in cells) {
             cellsTag.putCompound(cell.toString(), cellData.serialize())
         }
-
         nbt.putCompound(TAG_CELLS, cellsTag)
+
+        nbt.putIntArray(TAG_EXPIRED_CELLS, expiredCells)
 
         if (shouldClearOnWrite) {
             currentCellNum = 0
@@ -95,8 +108,17 @@ object CellManager {
         return cells.contains(index)
     }
 
+    @JvmStatic
+    fun isCellExpired(index: Int): Boolean {
+        return expiredCells.contains(index)
+    }
 
-    const val TAG_CURRENT_CELL_NUM = "$MOD_ID:current_cell_num"
-    const val TAG_CELLS = "$MOD_ID:cells"
+    @JvmStatic
+    fun updateExpiredCells(world: ServerWorld) {
+        val gameTime = world.time;
+
+        expiredCells.addAll(cells.filterValues { it.expirationTimestamp < gameTime }.keys)
+        cells = cells.filterValues { it.expirationTimestamp >= gameTime } as MutableMap
+    }
 
 }

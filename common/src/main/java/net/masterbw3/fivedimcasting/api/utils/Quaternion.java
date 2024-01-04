@@ -2,7 +2,6 @@
 
 package net.masterbw3.fivedimcasting.api.utils;
 
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public record Quaternion(double x0, double x1, double x2, double x3) {
