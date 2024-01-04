@@ -6,6 +6,7 @@ import at.petrak.hexcasting.api.casting.iota.BooleanIota;
 import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
+import net.masterbw3.fivedimcasting.FiveDimCasting;
 import net.masterbw3.fivedimcasting.api.FiveDimCastingApi;
 import net.masterbw3.fivedimcasting.api.casting.iota.QuaternionIota;
 import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes;
@@ -27,6 +28,7 @@ public class MixinIotaPredicate implements IotaPredicate {
      */
     @Overwrite(remap = false)
     public boolean test(Iota iota) {
-        return ((IMixinIota) iota).tryCastTo(this.type).isPresent();
+        FiveDimCasting.LOGGER.info("testing");
+        return ((IMixinIota) iota).tryCastTo(this.type).isPresent() || ((IMixinIota) this).tryCastTo(iota.getType()).isPresent();
     }
 }

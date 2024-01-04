@@ -25,9 +25,6 @@ public abstract class MixinDoubleIota extends Iota implements IMixinIota {
 
     @Shadow(remap = false) public abstract double getDouble();
 
-    @Unique
-    private final List<IotaType<?>> typesCastableTo = List.of(DOUBLE, QUATERNION);
-
     @Override
     public <T extends Iota> Optional<T> tryCastTo(IotaType<T> iotaType) {
         if (iotaType == QUATERNION) {

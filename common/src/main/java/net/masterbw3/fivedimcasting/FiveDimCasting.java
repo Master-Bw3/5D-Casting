@@ -1,5 +1,6 @@
 package net.masterbw3.fivedimcasting;
 
+import at.petrak.hexcasting.api.casting.castables.OperationAction;
 import at.petrak.hexcasting.common.lib.hex.HexActions;
 import net.minecraft.registry.Registry;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +17,6 @@ public class FiveDimCasting {
 
     public static void init() {
         LOGGER.info("5D Casting says hello!");
-
     }
 
 
