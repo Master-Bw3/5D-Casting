@@ -5,6 +5,9 @@ import at.petrak.hexcasting.api.casting.castables.OperationAction;
 import at.petrak.hexcasting.api.casting.math.HexDir;
 import at.petrak.hexcasting.api.casting.math.HexPattern;
 import at.petrak.hexcasting.common.lib.hex.HexActions;
+import net.masterbw3.fivedimcasting.casting.actions.OpEntityPitch;
+import net.masterbw3.fivedimcasting.casting.actions.OpEntityTopHeadNormal;
+import net.masterbw3.fivedimcasting.casting.actions.OpEntityYaw;
 import net.masterbw3.fivedimcasting.casting.actions.cell.OpCreateCell;
 import net.masterbw3.fivedimcasting.casting.actions.stream.OpMakeStream;
 import net.masterbw3.fivedimcasting.casting.actions.math.*;
@@ -19,6 +22,15 @@ import static net.masterbw3.fivedimcasting.api.FiveDimCastingApi.modLoc;
 
 public class FiveDimCastingActions extends HexActions {
     private static final Map<Identifier, ActionRegistryEntry> ACTIONS = new LinkedHashMap<>();
+
+    public static final ActionRegistryEntry GET_HEAD_NORMAL = make("entity/top_head_normal",
+            new ActionRegistryEntry(HexPattern.fromAngles("wd", HexDir.NORTH_EAST), OpEntityTopHeadNormal.INSTANCE));
+
+    public static final ActionRegistryEntry GET_PITCH = make("entity/pitch",
+            new ActionRegistryEntry(HexPattern.fromAngles("wde", HexDir.NORTH_EAST), OpEntityPitch.INSTANCE));
+
+    public static final ActionRegistryEntry GET_YAW = make("entity/yaw",
+            new ActionRegistryEntry(HexPattern.fromAngles("waq", HexDir.NORTH_EAST), OpEntityYaw.INSTANCE));
 
     //math
     public static final ActionRegistryEntry CONSTRUCT_QUATERNION = make("construct_quaternion",
