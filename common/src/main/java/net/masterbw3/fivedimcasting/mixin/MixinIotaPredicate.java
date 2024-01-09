@@ -9,7 +9,7 @@ import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import net.masterbw3.fivedimcasting.FiveDimCasting;
 import net.masterbw3.fivedimcasting.api.FiveDimCastingApi;
 import net.masterbw3.fivedimcasting.api.casting.iota.QuaternionIota;
-import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes;
+import net.masterbw3.fivedimcasting.common.lib.FiveDimCastingIotaTypes;
 import net.masterbw3.fivedimcasting.mixinImpl.IMixinIota;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static at.petrak.hexcasting.common.lib.hex.HexIotaTypes.DOUBLE;
-import static net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes.QUATERNION;
+import static net.masterbw3.fivedimcasting.common.lib.FiveDimCastingIotaTypes.QUATERNION;
 
 @Mixin(DoubleIota.class)
 public abstract class MixinDoubleIota extends Iota implements IMixinIota {

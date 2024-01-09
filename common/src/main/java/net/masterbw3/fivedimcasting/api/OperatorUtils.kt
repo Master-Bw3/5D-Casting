@@ -9,9 +9,9 @@ import net.masterbw3.fivedimcasting.api.casting.iota.CellIota
 import net.masterbw3.fivedimcasting.api.casting.iota.StreamIota
 import net.masterbw3.fivedimcasting.api.utils.Complex
 import net.masterbw3.fivedimcasting.api.utils.Quaternion
-import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes.CELL
-import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes.QUATERNION
-import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes.STREAM
+import net.masterbw3.fivedimcasting.common.lib.FiveDimCastingIotaTypes.CELL
+import net.masterbw3.fivedimcasting.common.lib.FiveDimCastingIotaTypes.QUATERNION
+import net.masterbw3.fivedimcasting.common.lib.FiveDimCastingIotaTypes.STREAM
 
 fun List<Iota>.getStream(idx: Int, argc: Int = 0): StreamIota {
     val x = this.getOrElse(idx) { throw MishapNotEnoughArgs(idx + 1, this.size) }

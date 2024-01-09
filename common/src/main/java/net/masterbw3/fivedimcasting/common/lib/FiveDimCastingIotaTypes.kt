@@ -1,4 +1,4 @@
-package net.masterbw3.fivedimcasting.lib.hex
+package net.masterbw3.fivedimcasting.common.lib
 
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.IotaType

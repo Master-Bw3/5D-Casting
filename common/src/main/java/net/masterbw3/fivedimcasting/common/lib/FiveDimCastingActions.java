@@ -1,17 +1,17 @@
-package net.masterbw3.fivedimcasting.lib.hex;
+package net.masterbw3.fivedimcasting.common.lib;
 
 import at.petrak.hexcasting.api.casting.ActionRegistryEntry;
 import at.petrak.hexcasting.api.casting.castables.OperationAction;
 import at.petrak.hexcasting.api.casting.math.HexDir;
 import at.petrak.hexcasting.api.casting.math.HexPattern;
 import at.petrak.hexcasting.common.lib.hex.HexActions;
-import net.masterbw3.fivedimcasting.casting.actions.OpEntityPitch;
-import net.masterbw3.fivedimcasting.casting.actions.OpEntityTopHeadNormal;
-import net.masterbw3.fivedimcasting.casting.actions.OpEntityYaw;
-import net.masterbw3.fivedimcasting.casting.actions.cell.OpCreateCell;
-import net.masterbw3.fivedimcasting.casting.actions.stream.OpMakeStream;
-import net.masterbw3.fivedimcasting.casting.actions.math.*;
-import net.masterbw3.fivedimcasting.casting.actions.stream.OpStreamMap;
+import net.masterbw3.fivedimcasting.common.casting.actions.OpEntityPitch;
+import net.masterbw3.fivedimcasting.common.casting.actions.OpEntityTopHeadNormal;
+import net.masterbw3.fivedimcasting.common.casting.actions.OpEntityYaw;
+import net.masterbw3.fivedimcasting.common.casting.actions.cell.OpCreateCell;
+import net.masterbw3.fivedimcasting.common.casting.actions.stream.OpMakeStream;
+import net.masterbw3.fivedimcasting.common.casting.actions.math.*;
+import net.masterbw3.fivedimcasting.common.casting.actions.stream.OpStreamMap;
 import net.minecraft.util.Identifier;
 
 import java.util.LinkedHashMap;

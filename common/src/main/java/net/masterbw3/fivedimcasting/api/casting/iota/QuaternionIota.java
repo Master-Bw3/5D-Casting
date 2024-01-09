@@ -6,7 +6,7 @@ import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.api.utils.HexUtils;
 import net.masterbw3.fivedimcasting.mixinImpl.IMixinIota;
 import net.masterbw3.fivedimcasting.api.utils.Quaternion;
-import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes;
+import net.masterbw3.fivedimcasting.common.lib.FiveDimCastingIotaTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.server.world.ServerWorld;

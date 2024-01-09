@@ -1,10 +1,10 @@
-package net.masterbw3.fivedimcasting.lib.hex
+package net.masterbw3.fivedimcasting.common.lib
 
 import at.petrak.hexcasting.api.casting.arithmetic.Arithmetic
 import net.masterbw3.fivedimcasting.api.FiveDimCastingApi.modLoc
-import net.masterbw3.fivedimcasting.casting.actions.arithmetics.CellArithmetic
-import net.masterbw3.fivedimcasting.casting.actions.arithmetics.QuaternionArithmetic
-import net.masterbw3.fivedimcasting.casting.actions.arithmetics.StreamArithmetic
+import net.masterbw3.fivedimcasting.common.casting.actions.arithmetics.CellArithmetic
+import net.masterbw3.fivedimcasting.common.casting.actions.arithmetics.QuaternionArithmetic
+import net.masterbw3.fivedimcasting.common.casting.actions.arithmetics.StreamArithmetic
 import net.minecraft.util.Identifier
 import java.util.function.BiConsumer
 

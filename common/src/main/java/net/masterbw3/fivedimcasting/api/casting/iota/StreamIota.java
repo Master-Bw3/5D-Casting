@@ -4,7 +4,7 @@ import at.petrak.hexcasting.api.casting.SpellList;
 import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.api.utils.HexUtils;
-import net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes;
+import net.masterbw3.fivedimcasting.common.lib.FiveDimCastingIotaTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;

@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-import static net.masterbw3.fivedimcasting.lib.hex.FiveDimCastingIotaTypes.CELL;
+import static net.masterbw3.fivedimcasting.common.lib.FiveDimCastingIotaTypes.CELL;
 
 public class CellIota extends Iota implements IMixinIota {
     public static String TAG_INDEX = "index";
