@@ -1,11 +1,11 @@
 package net.masterbw3.fivedimcasting.common.items;
 
+import at.petrak.hexcasting.common.items.ItemStaff;
 import at.petrak.hexcasting.common.lib.HexSounds;
 import at.petrak.hexcasting.common.msgs.MsgClearSpiralPatternsS2C;
-import at.petrak.hexcasting.common.msgs.MsgOpenSpellGuiS2C;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
+import net.masterbw3.fivedimcasting.common.msgs.MsgOpenGrandStaffSpellGuiS2C;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
@@ -13,7 +13,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class ItemGrandStaff extends Item {
+public class ItemGrandStaff extends ItemStaff {
 
     public ItemGrandStaff(Settings pProperties) {
         super(pProperties);
@@ -38,7 +38,7 @@ public class ItemGrandStaff extends Item {
             var descs = harness.generateDescs();
 
             IXplatAbstractions.INSTANCE.sendPacketToPlayer(serverPlayer,
-                    new MsgOpenSpellGuiS2C(hand, patterns, descs.getFirst(), descs.getSecond(),
+                    new MsgOpenGrandStaffSpellGuiS2C(hand, patterns, descs.getFirst(), descs.getSecond(),
                             0)); // TODO: Fix!
         }
 

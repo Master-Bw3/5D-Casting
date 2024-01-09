@@ -9,8 +9,11 @@
     "MixinGetters",
     "MixinIota",
     "MixinIotaPredicate",
-    "MixinOperator"
+    "MixinOperator",
+
   ],
   "client": [
+    "MixinGuiSpellCasting"
+
   ]
 }
