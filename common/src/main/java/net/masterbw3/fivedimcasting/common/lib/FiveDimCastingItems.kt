@@ -4,6 +4,7 @@ package net.masterbw3.fivedimcasting.common.lib
 import at.petrak.hexcasting.common.items.ItemStaff
 import at.petrak.hexcasting.common.lib.HexItems
 import net.masterbw3.fivedimcasting.api.FiveDimCastingApi
+import net.masterbw3.fivedimcasting.common.items.ItemGrandStaff
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
@@ -29,7 +30,7 @@ object FiveDimCastingItems {
 
     private val ITEM_TABS: MutableMap<ItemGroup, MutableList<TabEntry>> = LinkedHashMap()
 
-    val GRAND_STAFF = make("grand_staff", ItemStaff(HexItems.unstackable()))
+    val GRAND_STAFF = make("grand_staff", ItemGrandStaff(HexItems.unstackable()))
 
 
     private fun <T : Item> make(id: Identifier, item: T, tab: ItemGroup?): T {

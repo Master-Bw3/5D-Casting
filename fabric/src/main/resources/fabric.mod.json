@@ -22,7 +22,10 @@
       }
     ],
     "client": [
-      "net.masterbw3.fivedimcasting.fabric.FiveDimCastingClientFabric"
+      {
+        "adapter": "kotlin",
+        "value": "net.masterbw3.fivedimcasting.fabric.FiveDimCastingFabricClientInitializer"
+      }
     ]
   },
   "mixins": [

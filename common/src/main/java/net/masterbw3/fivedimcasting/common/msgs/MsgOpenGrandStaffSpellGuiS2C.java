@@ -6,7 +6,7 @@ import at.petrak.hexcasting.common.msgs.IMessage;
 import io.netty.buffer.ByteBuf;
 import java.util.List;
 
-import net.masterbw3.fivedimcasting.client.gui.GuiGrandStaffSpellCasting;
+import net.masterbw3.fivedimcasting.FiveDimCasting;
 import net.masterbw3.fivedimcasting.mixinImpl.IMixinGuiSpellCasting;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.nbt.NbtCompound;
@@ -23,7 +23,7 @@ public record MsgOpenGrandStaffSpellGuiS2C(Hand hand, List<ResolvedPattern> patt
                                  int parenCount
 )
         implements IMessage {
-    public static final Identifier ID = modLoc("cgui");
+    public static final Identifier ID = modLoc("gcgui");
 
     @Override
     public Identifier getFabricId() {
@@ -31,6 +31,7 @@ public record MsgOpenGrandStaffSpellGuiS2C(Hand hand, List<ResolvedPattern> patt
     }
 
     public static MsgOpenGrandStaffSpellGuiS2C deserialize(ByteBuf buffer) {
+
         var buf = new PacketByteBuf(buffer);
 
         var hand = buf.readEnumConstant(Hand.class);
@@ -46,6 +47,7 @@ public record MsgOpenGrandStaffSpellGuiS2C(Hand hand, List<ResolvedPattern> patt
     }
 
     public void serialize(PacketByteBuf buf) {
+
         buf.writeEnumConstant(this.hand);
 
         buf.writeCollection(this.patterns, (fbb, pat) -> fbb.writeNbt(pat.serializeToNBT()));
@@ -57,13 +59,16 @@ public record MsgOpenGrandStaffSpellGuiS2C(Hand hand, List<ResolvedPattern> patt
     }
 
     public static void handle(MsgOpenGrandStaffSpellGuiS2C msg) {
+
         MinecraftClient.getInstance().execute(new Runnable() {
             @Override
             public void run() {
                 var mc = MinecraftClient.getInstance();
+                var grandStaffGui = new GuiSpellcasting(msg.hand(), msg.patterns(), msg.stack, msg.ravenmind,
+                        msg.parenCount);
+                ((IMixinGuiSpellCasting) (Object) grandStaffGui).fivedimcasting$enableGrandStaffCastingMode();
                 mc.setScreen(
-                        new GuiSpellcasting(msg.hand(), msg.patterns(), msg.stack, msg.ravenmind,
-                                msg.parenCount));
+                        grandStaffGui);
             }
         });
     }

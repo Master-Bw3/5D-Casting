@@ -5,5 +5,7 @@
   "package": "net.masterbw3.fivedimcasting.fabric.mixin",
   "mixins": [],
   "client": [
+    "MixinGuiSpellCasting"
+
   ]
 }
