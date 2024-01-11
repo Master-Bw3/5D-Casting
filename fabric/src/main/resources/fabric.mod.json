@@ -29,7 +29,8 @@
     ]
   },
   "mixins": [
-    "fivedimcasting.mixins.json"
+    "fivedimcasting.mixins.json",
+    "fivedimcasting-common.mixins.json"
   ],
   "depends": {
     "minecraft": ">=1.20.1",

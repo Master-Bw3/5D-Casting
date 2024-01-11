@@ -9,10 +9,10 @@
     "MixinGetters",
     "MixinIota",
     "MixinIotaPredicate",
-    "MixinOperator",
-
+    "MixinMsgNewSpellPatternS2C",
+    "MixinOperator"
   ],
   "client": [
-
+    "TestMixin"
   ]
 }

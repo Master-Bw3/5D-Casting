@@ -10,10 +10,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 @Mixin(Operator.Companion.class)
 public class MixinOperator {
 
-    /**
-     * @author Master_Bw3
-     * @reason because
-     */
+
     @Overwrite(remap = false)
     public final <T extends Iota> T downcast(Iota iota, IotaType<T> iotaType) {
         var x = ((IMixinIota) (Object) iota).tryCastTo(iotaType);

@@ -22,10 +22,7 @@ public class MixinIotaPredicate implements IotaPredicate {
     @Final
     private IotaType<?> type;
 
-    /**
-     * @author Master_Bw3
-     * @reason testing something
-     */
+
     @Overwrite(remap = false)
     public boolean test(Iota iota) {
         return ((IMixinIota) (Object) iota).tryCastTo(this.type).isPresent();

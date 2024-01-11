@@ -2,6 +2,7 @@ package net.masterbw3.fivedimcasting.mixin;
 
 import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.iota.IotaType;
+import net.masterbw3.fivedimcasting.FiveDimCasting;
 import net.masterbw3.fivedimcasting.mixinImpl.IMixinIota;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
