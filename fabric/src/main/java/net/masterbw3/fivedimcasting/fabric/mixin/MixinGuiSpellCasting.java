@@ -1,5 +1,6 @@
 package net.masterbw3.fivedimcasting.fabric.mixin;
 
+import at.petrak.hexcasting.api.casting.eval.ResolvedPattern;
 import at.petrak.hexcasting.api.casting.math.HexCoord;
 import at.petrak.hexcasting.client.gui.GuiSpellcasting;
 import at.petrak.hexcasting.client.render.RenderLib;
@@ -11,7 +12,9 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec2f;
+import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,6 +22,8 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static at.petrak.hexcasting.client.render.RenderLib.screenCol;
@@ -29,9 +34,18 @@ public abstract class MixinGuiSpellCasting extends Screen implements IMixinGuiSp
     @Unique
     private boolean fivedimcasting$grandStaffCasting = false;
 
+    @Unique
+    private List<ResolvedPattern> actualPatterns;
+
     protected MixinGuiSpellCasting(Text title) {
         super(title);
     }
+
+    @Shadow
+    private List<ResolvedPattern> patterns;
+
+    @Shadow
+    private Set<HexCoord> usedSpots;
 
     @Override
     public void fivedimcasting$enableGrandStaffCastingMode() {
@@ -41,6 +55,26 @@ public abstract class MixinGuiSpellCasting extends Screen implements IMixinGuiSp
     @Override
     public boolean fivedimcasting$isGrandStaffCasting() {
         return fivedimcasting$grandStaffCasting;
+    }
+
+
+    @Inject(method = "render", at = @At("HEAD"))
+    private void preventRenderingDrawnPatternsHead(DrawContext graphics, int pMouseX, int pMouseY, float pPartialTick, CallbackInfo ci) {
+        if (fivedimcasting$isGrandStaffCasting()) {
+            this.actualPatterns = new ArrayList<>();
+            this.actualPatterns.addAll(this.patterns);
+            this.patterns = new ArrayList<>();
+            this.usedSpots.clear();
+        }
+    }
+
+    @Inject(method = "render", at = @At("TAIL"))
+    private void preventRenderingDrawnPatternsTail(DrawContext graphics, int pMouseX, int pMouseY, float pPartialTick, CallbackInfo ci) {
+        if (fivedimcasting$isGrandStaffCasting()) {
+            this.patterns = new ArrayList<>();
+            this.patterns.addAll(this.actualPatterns);
+            this.actualPatterns = new ArrayList<>();
+        }
     }
 
     //set mouse coord to be center of screen
@@ -164,7 +198,6 @@ public abstract class MixinGuiSpellCasting extends Screen implements IMixinGuiSp
             RenderLib.drawLineSeq(mat, bottomCenterOutlinePoints, line_width,0, color, color);
 
             //draw top center hexagon outline
-            //draw bottom center hexagon outline
             var topCenterOutlinePoints = new ArrayList<Vec2f>();
             var top_right = new Vec2f(hex_top_right_x + x_offset, hex_top_y - y_offset);
             var top_left = new Vec2f(hex_top_left_x - x_offset, hex_top_y - y_offset);
@@ -175,6 +208,80 @@ public abstract class MixinGuiSpellCasting extends Screen implements IMixinGuiSp
             topCenterOutlinePoints.add(middle_left);
 
             RenderLib.drawLineSeq(mat, topCenterOutlinePoints, line_width,0, color, color);
+
+            //bottom left hexagon dimensions
+            var bl_hex_top_y = $this.coordToPx(new HexCoord(0, 2)).y;
+            var bl_hex_top_left_x = $this.coordToPx(new HexCoord(-6, 2)).x;
+            var bl_hex_top_right_x = $this.coordToPx(new HexCoord(-5, 2)).x;
+
+            var bl_hex_middle_y = $this.coordToPx(new HexCoord(0, 3)).y;
+            var bl_hex_middle_left_x = $this.coordToPx(new HexCoord(-7, 3)).x;
+            var bl_hex_middle_right_x = $this.coordToPx(new HexCoord(-5, 3)).x;
+
+            var bl_hex_bottom_y = $this.coordToPx(new HexCoord(0, 4)).y;
+            var bl_hex_bottom_left_x = $this.coordToPx(new HexCoord(-7, 4)).x;
+            var bl_hex_bottom_right_x = $this.coordToPx(new HexCoord(-6, 4)).x;
+
+            //draw bottom bottom-left hexagon outline
+            var bottomBLOutlinePoints = new ArrayList<Vec2f>();
+            var bl_bottom_left = new Vec2f(bl_hex_bottom_left_x - x_offset, bl_hex_bottom_y + y_offset);
+            var bl_bottom_right = new Vec2f(bl_hex_bottom_right_x + x_offset, bl_hex_bottom_y + y_offset);
+            var bl_middle_right = new Vec2f(bl_hex_middle_right_x + x_offset * 2, bl_hex_middle_y);
+
+            bottomBLOutlinePoints.add(bl_bottom_left);
+            bottomBLOutlinePoints.add(bl_bottom_right);
+            bottomBLOutlinePoints.add(bl_middle_right);
+
+            RenderLib.drawLineSeq(mat, bottomBLOutlinePoints, line_width,0, color, color);
+
+            //draw top bottom-left hexagon outline
+            var topBLOutlinePoints = new ArrayList<Vec2f>();
+            var bl_top_right = new Vec2f(bl_hex_top_right_x + x_offset, bl_hex_top_y - y_offset);
+            var bl_top_left = new Vec2f(bl_hex_top_left_x - x_offset, bl_hex_top_y - y_offset);
+            var bl_middle_left = new Vec2f(bl_hex_middle_left_x - x_offset * 2, bl_hex_middle_y);
+
+            topBLOutlinePoints.add(bl_top_right);
+            topBLOutlinePoints.add(bl_top_left);
+            topBLOutlinePoints.add(bl_middle_left);
+
+            RenderLib.drawLineSeq(mat, topBLOutlinePoints, line_width,0, color, color);
+
+            //top right hexagon dimensions
+            var tr_hex_top_y = $this.coordToPx(new HexCoord(0, -4)).y;
+            var tr_hex_top_left_x = $this.coordToPx(new HexCoord(6, -4)).x;
+            var tr_hex_top_right_x = $this.coordToPx(new HexCoord(7, -4)).x;
+
+            var tr_hex_middle_y = $this.coordToPx(new HexCoord(0, -3)).y;
+            var tr_hex_middle_left_x = $this.coordToPx(new HexCoord(5, -3)).x;
+            var tr_hex_middle_right_x = $this.coordToPx(new HexCoord(7, -3)).x;
+
+            var tr_hex_bottom_y = $this.coordToPx(new HexCoord(0, -2)).y;
+            var tr_hex_bottom_left_x = $this.coordToPx(new HexCoord(5, -2)).x;
+            var tr_hex_bottom_right_x = $this.coordToPx(new HexCoord(6, -2)).x;
+
+            //draw bottom top-right hexagon outline
+            var bottomTROutlinePoints = new ArrayList<Vec2f>();
+            var tr_bottom_left = new Vec2f(tr_hex_bottom_left_x - x_offset, tr_hex_bottom_y + y_offset);
+            var tr_bottom_right = new Vec2f(tr_hex_bottom_right_x + x_offset, tr_hex_bottom_y + y_offset);
+            var tr_middle_right = new Vec2f(tr_hex_middle_right_x + x_offset * 2, tr_hex_middle_y);
+
+            bottomTROutlinePoints.add(tr_bottom_left);
+            bottomTROutlinePoints.add(tr_bottom_right);
+            bottomTROutlinePoints.add(tr_middle_right);
+
+            RenderLib.drawLineSeq(mat, bottomTROutlinePoints, line_width,0, color, color);
+
+            //draw top top-right hexagon outline
+            var topTROutlinePoints = new ArrayList<Vec2f>();
+            var tr_top_right = new Vec2f(tr_hex_top_right_x + x_offset, tr_hex_top_y - y_offset);
+            var tr_top_left = new Vec2f(tr_hex_top_left_x - x_offset, tr_hex_top_y - y_offset);
+            var tr_middle_left = new Vec2f(tr_hex_middle_left_x - x_offset * 2, tr_hex_middle_y);
+
+            topTROutlinePoints.add(tr_top_right);
+            topTROutlinePoints.add(tr_top_left);
+            topTROutlinePoints.add(tr_middle_left);
+
+            RenderLib.drawLineSeq(mat, topTROutlinePoints, line_width,0, color, color);
         }
     }
 

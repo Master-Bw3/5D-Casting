@@ -4,9 +4,11 @@ import at.petrak.hexcasting.api.casting.eval.ResolvedPattern;
 import at.petrak.hexcasting.client.gui.GuiSpellcasting;
 import at.petrak.hexcasting.common.msgs.IMessage;
 import io.netty.buffer.ByteBuf;
+
 import java.util.List;
 
 import net.masterbw3.fivedimcasting.FiveDimCasting;
+import net.masterbw3.fivedimcasting.client.gui.GuiGrandStaffSpellCasting;
 import net.masterbw3.fivedimcasting.mixinImpl.IMixinGuiSpellCasting;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.nbt.NbtCompound;
@@ -18,9 +20,9 @@ import static net.masterbw3.fivedimcasting.api.FiveDimCastingApi.modLoc;
 
 //https://github.com/FallingColors/HexMod/blob/main/Common/src/main/java/at/petrak/hexcasting/common/msgs/MsgOpenSpellGuiS2C.java
 public record MsgOpenGrandStaffSpellGuiS2C(Hand hand, List<ResolvedPattern> patterns,
-                                 List<NbtCompound> stack,
-                                 NbtCompound ravenmind,
-                                 int parenCount
+                                           List<NbtCompound> stack,
+                                           NbtCompound ravenmind,
+                                           int parenCount
 )
         implements IMessage {
     public static final Identifier ID = modLoc("gcgui");
@@ -64,11 +66,12 @@ public record MsgOpenGrandStaffSpellGuiS2C(Hand hand, List<ResolvedPattern> patt
             @Override
             public void run() {
                 var mc = MinecraftClient.getInstance();
-                var grandStaffGui = new GuiSpellcasting(msg.hand(), msg.patterns(), msg.stack, msg.ravenmind,
-                        msg.parenCount);
-                ((IMixinGuiSpellCasting) (Object) grandStaffGui).fivedimcasting$enableGrandStaffCastingMode();
+//                var grandStaffGui = new GuiSpellcasting(msg.hand(), msg.patterns(), msg.stack, msg.ravenmind,
+//                        msg.parenCount);
+//                ((IMixinGuiSpellCasting) (Object) grandStaffGui).fivedimcasting$enableGrandStaffCastingMode();
                 mc.setScreen(
-                        grandStaffGui);
+                        new GuiGrandStaffSpellCasting(msg.hand(), msg.patterns(), msg.stack, msg.ravenmind,
+                                msg.parenCount));
             }
         });
     }
