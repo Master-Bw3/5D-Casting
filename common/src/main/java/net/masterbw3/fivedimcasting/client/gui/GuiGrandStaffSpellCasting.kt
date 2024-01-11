@@ -21,6 +21,7 @@ import at.petrak.hexcasting.common.lib.HexSounds
 import at.petrak.hexcasting.common.msgs.MsgNewSpellPatternC2S
 import at.petrak.hexcasting.xplat.IClientXplatAbstractions
 import com.mojang.blaze3d.systems.RenderSystem
+import net.masterbw3.fivedimcasting.FiveDimCasting
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
@@ -32,6 +33,7 @@ import net.minecraft.text.OrderedText
 import net.minecraft.util.Hand
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec2f
+import org.joml.Matrix4f
 import kotlin.math.*
 
 //https://github.com/FallingColors/HexMod/blob/main/Common/src/main/java/at/petrak/hexcasting/client/gui/GuiSpellcasting.kt
@@ -246,12 +248,13 @@ class GuiGrandStaffSpellCasting constructor(
                 val (start, _, pat) = this.drawState as PatternDrawState.Drawing
                 this.drawState = PatternDrawState.BetweenPatterns
                 this.patterns.add(ResolvedPattern(pat, start, ResolvedPatternType.UNRESOLVED))
-
+                FiveDimCasting.LOGGER.info("hello")
                 IClientXplatAbstractions.INSTANCE.sendPacketToServer(
                     MsgNewSpellPatternC2S(
                         this.handOpenedWith,
                         pat,
-                        this.patterns
+                        //this.patterns
+                        listOf()
                     )
                 )
             }
@@ -295,6 +298,13 @@ class GuiGrandStaffSpellCasting constructor(
         super.close()
     }
 
+    fun isCoordVisible(radius: Int, coord: Vec2f): Boolean {
+        val center = Vec2f(this.width.toFloat() / 2, this.height.toFloat() / 2)
+
+        val centerDelta = coord.add(center.negate()).length()
+
+        return ceil((1.0f - ((centerDelta - this.hexSize()) / (radius.toFloat() * this.hexSize()))) - 0.1) >= 1.0
+    }
 
     override fun render(graphics: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTick: Float) {
         super.render(graphics, pMouseX, pMouseY, pPartialTick)
@@ -302,7 +312,7 @@ class GuiGrandStaffSpellCasting constructor(
 //        this.ambianceSoundInstance?.mousePosX = pMouseX / this.width.toDouble()
 //        this.ambianceSoundInstance?.mousePosY = pMouseX / this.width.toDouble()
 
-        val ps = graphics.matrices // TODO: Determine if this is still necessary.
+        val ps = graphics.matrices
 
         val mat = ps.peek().positionMatrix
         val prevShader = RenderSystem.getShader()
@@ -322,7 +332,6 @@ class GuiGrandStaffSpellCasting constructor(
         for (dotCoord in centerCoord.rangeAround(radius)) {
             val dotPx = this.coordToPx(dotCoord)
             val mouseDelta = dotPx.add(mousePos.negate()).length()
-            val centerDelta = dotPx.add(center.negate()).length()
 
             val scaledDist = MathHelper.clamp(
                 1.0f - ((mouseDelta - this.hexSize()) / (radius.toFloat() * this.hexSize())),
@@ -330,10 +339,7 @@ class GuiGrandStaffSpellCasting constructor(
                 1f
             )
 
-            val size = min(
-                1.0,
-                ceil((1.0f - ((centerDelta - this.hexSize()) / (radius.toFloat() * this.hexSize()))) - 0.1)
-            )
+            val size = if (isCoordVisible(radius, dotPx)) 1f else 0f
 
             drawSpot(
                 mat,
@@ -425,6 +431,8 @@ class GuiGrandStaffSpellCasting constructor(
 //            ps.translate(0.0, 15.0, 0.0)
 //        }
 
+        renderLines(mat)
+
         if (this.stackDescs.isNotEmpty()) {
             val boxHeight = (this.stackDescs.size + 1f) * 10f
             RenderSystem.setShader(GameRenderer::getPositionColorProgram)
@@ -464,6 +472,144 @@ class GuiGrandStaffSpellCasting constructor(
         }
 
         RenderSystem.setShader { prevShader }
+    }
+
+    private fun renderLines(mat: Matrix4f) {
+        //settings
+        val line_width = 1f
+        val color = screenCol(-0x9b3701)
+        val y_offset: Float = (5 * this.width).toFloat() / this.height
+        val x_offset = (y_offset * (2.0 / sqrt(3.0)) / 2).toFloat()
+
+        //center hexagon dimensions
+
+        //center hexagon dimensions
+        val hex_top_y: Float = this.coordToPx(HexCoord(0, -3)).y
+        val hex_top_left_x: Float = this.coordToPx(HexCoord(0, -3)).x
+        val hex_top_right_x: Float = this.coordToPx(HexCoord(3, -3)).x
+
+        val hex_middle_y: Float = this.coordToPx(HexCoord(0, 0)).y
+        val hex_middle_left_x: Float = this.coordToPx(HexCoord(-3, 0)).x
+        val hex_middle_right_x: Float = this.coordToPx(HexCoord(3, 0)).x
+
+
+        val hex_bottom_y: Float = this.coordToPx(HexCoord(0, 3)).y
+        val hex_bottom_left_x: Float = this.coordToPx(HexCoord(-3, 3)).x
+        val hex_bottom_right_x: Float = this.coordToPx(HexCoord(0, 3)).x
+
+        //draw bottom center hexagon outline
+
+        //draw bottom center hexagon outline
+        val bottomCenterOutlinePoints = ArrayList<Vec2f>()
+        val bottom_left = Vec2f(hex_bottom_left_x - x_offset, hex_bottom_y + y_offset)
+        val bottom_right = Vec2f(hex_bottom_right_x + x_offset, hex_bottom_y + y_offset)
+        val middle_right = Vec2f(hex_middle_right_x + x_offset * 2, hex_middle_y)
+
+        bottomCenterOutlinePoints.add(bottom_left)
+        bottomCenterOutlinePoints.add(bottom_right)
+        bottomCenterOutlinePoints.add(middle_right)
+
+        drawLineSeq(mat, bottomCenterOutlinePoints, line_width, 0f, color, color)
+
+        //draw top center hexagon outline
+
+        //draw top center hexagon outline
+        val topCenterOutlinePoints = ArrayList<Vec2f>()
+        val top_right = Vec2f(hex_top_right_x + x_offset, hex_top_y - y_offset)
+        val top_left = Vec2f(hex_top_left_x - x_offset, hex_top_y - y_offset)
+        val middle_left = Vec2f(hex_middle_left_x - x_offset * 2, hex_middle_y)
+
+        topCenterOutlinePoints.add(top_right)
+        topCenterOutlinePoints.add(top_left)
+        topCenterOutlinePoints.add(middle_left)
+
+        drawLineSeq(mat, topCenterOutlinePoints, line_width, 0f, color, color)
+
+        //bottom left hexagon dimensions
+
+        //bottom left hexagon dimensions
+        val bl_hex_top_y: Float = this.coordToPx(HexCoord(0, 2)).y
+        val bl_hex_top_left_x: Float = this.coordToPx(HexCoord(-6, 2)).x
+        val bl_hex_top_right_x: Float = this.coordToPx(HexCoord(-5, 2)).x
+
+        val bl_hex_middle_y: Float = this.coordToPx(HexCoord(0, 3)).y
+        val bl_hex_middle_left_x: Float = this.coordToPx(HexCoord(-7, 3)).x
+        val bl_hex_middle_right_x: Float = this.coordToPx(HexCoord(-5, 3)).x
+
+        val bl_hex_bottom_y: Float = this.coordToPx(HexCoord(0, 4)).y
+        val bl_hex_bottom_left_x: Float = this.coordToPx(HexCoord(-7, 4)).x
+        val bl_hex_bottom_right_x: Float = this.coordToPx(HexCoord(-6, 4)).x
+
+        //draw bottom bottom-left hexagon outline
+
+        //draw bottom bottom-left hexagon outline
+        val bottomBLOutlinePoints = ArrayList<Vec2f>()
+        val bl_bottom_left = Vec2f(bl_hex_bottom_left_x - x_offset, bl_hex_bottom_y + y_offset)
+        val bl_bottom_right = Vec2f(bl_hex_bottom_right_x + x_offset, bl_hex_bottom_y + y_offset)
+        val bl_middle_right = Vec2f(bl_hex_middle_right_x + x_offset * 2, bl_hex_middle_y)
+
+        bottomBLOutlinePoints.add(bl_bottom_left)
+        bottomBLOutlinePoints.add(bl_bottom_right)
+        bottomBLOutlinePoints.add(bl_middle_right)
+
+        drawLineSeq(mat, bottomBLOutlinePoints, line_width, 0f, color, color)
+
+        //draw top bottom-left hexagon outline
+
+        //draw top bottom-left hexagon outline
+        val topBLOutlinePoints = ArrayList<Vec2f>()
+        val bl_top_right = Vec2f(bl_hex_top_right_x + x_offset, bl_hex_top_y - y_offset)
+        val bl_top_left = Vec2f(bl_hex_top_left_x - x_offset, bl_hex_top_y - y_offset)
+        val bl_middle_left = Vec2f(bl_hex_middle_left_x - x_offset * 2, bl_hex_middle_y)
+
+        topBLOutlinePoints.add(bl_top_right)
+        topBLOutlinePoints.add(bl_top_left)
+        topBLOutlinePoints.add(bl_middle_left)
+
+        drawLineSeq(mat, topBLOutlinePoints, line_width, 0f, color, color)
+
+        //top right hexagon dimensions
+
+        //top right hexagon dimensions
+        val tr_hex_top_y: Float = this.coordToPx(HexCoord(0, -4)).y
+        val tr_hex_top_left_x: Float = this.coordToPx(HexCoord(6, -4)).x
+        val tr_hex_top_right_x: Float = this.coordToPx(HexCoord(7, -4)).x
+
+        val tr_hex_middle_y: Float = this.coordToPx(HexCoord(0, -3)).y
+        val tr_hex_middle_left_x: Float = this.coordToPx(HexCoord(5, -3)).x
+        val tr_hex_middle_right_x: Float = this.coordToPx(HexCoord(7, -3)).x
+
+        val tr_hex_bottom_y: Float = this.coordToPx(HexCoord(0, -2)).y
+        val tr_hex_bottom_left_x: Float = this.coordToPx(HexCoord(5, -2)).x
+        val tr_hex_bottom_right_x: Float = this.coordToPx(HexCoord(6, -2)).x
+
+        //draw bottom top-right hexagon outline
+
+        //draw bottom top-right hexagon outline
+        val bottomTROutlinePoints = ArrayList<Vec2f>()
+        val tr_bottom_left = Vec2f(tr_hex_bottom_left_x - x_offset, tr_hex_bottom_y + y_offset)
+        val tr_bottom_right = Vec2f(tr_hex_bottom_right_x + x_offset, tr_hex_bottom_y + y_offset)
+        val tr_middle_right = Vec2f(tr_hex_middle_right_x + x_offset * 2, tr_hex_middle_y)
+
+        bottomTROutlinePoints.add(tr_bottom_left)
+        bottomTROutlinePoints.add(tr_bottom_right)
+        bottomTROutlinePoints.add(tr_middle_right)
+
+        drawLineSeq(mat, bottomTROutlinePoints, line_width, 0f, color, color)
+
+        //draw top top-right hexagon outline
+
+        //draw top top-right hexagon outline
+        val topTROutlinePoints = ArrayList<Vec2f>()
+        val tr_top_right = Vec2f(tr_hex_top_right_x + x_offset, tr_hex_top_y - y_offset)
+        val tr_top_left = Vec2f(tr_hex_top_left_x - x_offset, tr_hex_top_y - y_offset)
+        val tr_middle_left = Vec2f(tr_hex_middle_left_x - x_offset * 2, tr_hex_middle_y)
+
+        topTROutlinePoints.add(tr_top_right)
+        topTROutlinePoints.add(tr_top_left)
+        topTROutlinePoints.add(tr_middle_left)
+
+        drawLineSeq(mat, topTROutlinePoints, line_width, 0f, color, color)
     }
 
     // why the hell is this default true
