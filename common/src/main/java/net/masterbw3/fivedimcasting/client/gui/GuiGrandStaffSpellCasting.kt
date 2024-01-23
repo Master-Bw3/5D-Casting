@@ -21,7 +21,6 @@ import at.petrak.hexcasting.common.lib.HexSounds
 import at.petrak.hexcasting.common.msgs.MsgNewSpellPatternC2S
 import at.petrak.hexcasting.xplat.IClientXplatAbstractions
 import com.mojang.blaze3d.systems.RenderSystem
-import net.masterbw3.fivedimcasting.FiveDimCasting
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
@@ -131,7 +130,7 @@ class GuiGrandStaffSpellCasting constructor(
 
         val mx = MathHelper.clamp(mxOut, 0.0, this.width.toDouble())
         val my = MathHelper.clamp(myOut, 0.0, this.height.toDouble())
-        if (this.drawState is PatternDrawState.BetweenPatterns) {
+        if (this.drawState is PatternDrawState.BetweenPatterns && isCoordVisible(5, Vec2f(mx.toFloat(), my.toFloat()))) {
             val coord = this.pxToCoord(Vec2f(mx.toFloat(), my.toFloat()))
 
             this.drawState = PatternDrawState.JustStarted(coord)
@@ -165,7 +164,7 @@ class GuiGrandStaffSpellCasting constructor(
             is PatternDrawState.JustStarted -> (this.drawState as PatternDrawState.JustStarted).start
             is PatternDrawState.Drawing -> (this.drawState as PatternDrawState.Drawing).current
         }
-        if (anchorCoord != null) {
+        if (anchorCoord != null && isCoordVisible(5, Vec2f(mx.toFloat(), my.toFloat()))) {
             val anchor = this.coordToPx(anchorCoord)
             val mouse = Vec2f(mx.toFloat(), my.toFloat())
             val snapDist =
@@ -248,7 +247,6 @@ class GuiGrandStaffSpellCasting constructor(
                 val (start, _, pat) = this.drawState as PatternDrawState.Drawing
                 this.drawState = PatternDrawState.BetweenPatterns
                 this.patterns.add(ResolvedPattern(pat, start, ResolvedPatternType.UNRESOLVED))
-                FiveDimCasting.LOGGER.info("hello")
                 IClientXplatAbstractions.INSTANCE.sendPacketToServer(
                     MsgNewSpellPatternC2S(
                         this.handOpenedWith,
@@ -257,7 +255,7 @@ class GuiGrandStaffSpellCasting constructor(
                         listOf()
                     )
                 )
-            }
+            }   
         }
 
         return false
@@ -298,7 +296,7 @@ class GuiGrandStaffSpellCasting constructor(
         super.close()
     }
 
-    fun isCoordVisible(radius: Int, coord: Vec2f): Boolean {
+    private fun isCoordVisible(radius: Int, coord: Vec2f): Boolean {
         val center = Vec2f(this.width.toFloat() / 2, this.height.toFloat() / 2)
 
         val centerDelta = coord.add(center.negate()).length()

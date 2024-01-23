@@ -1,7 +1,6 @@
 package net.masterbw3.fivedimcasting.common.lib
 
 
-import at.petrak.hexcasting.common.items.ItemStaff
 import at.petrak.hexcasting.common.lib.HexItems
 import net.masterbw3.fivedimcasting.api.FiveDimCastingApi
 import net.masterbw3.fivedimcasting.common.items.ItemGrandStaff
