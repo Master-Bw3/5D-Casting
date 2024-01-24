@@ -1,5 +1,10 @@
 package net.masterbw3.fivedimcasting.common.items;
 
+import at.petrak.hexcasting.api.casting.iota.Iota;
+import at.petrak.hexcasting.api.casting.iota.IotaType;
+import at.petrak.hexcasting.api.item.IotaHolderItem;
+import at.petrak.hexcasting.api.item.MediaHolderItem;
+import at.petrak.hexcasting.api.utils.NBTHelper;
 import at.petrak.hexcasting.common.items.ItemStaff;
 import at.petrak.hexcasting.common.lib.HexSounds;
 import at.petrak.hexcasting.common.msgs.MsgClearSpiralPatternsS2C;
@@ -7,13 +12,21 @@ import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import net.masterbw3.fivedimcasting.common.msgs.MsgOpenGrandStaffSpellGuiS2C;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
-public class ItemGrandStaff extends ItemStaff {
+public class ItemGrandStaff extends ItemStaff implements IotaHolderItem {
+
+    public static final String TAG_HEX = "hex";
+    public static final String TAG_STACK = "stack";
+    public static final String TAG_RAVENMIND = "ravenmind";
+
+
 
     public ItemGrandStaff(Settings pProperties) {
         super(pProperties);
@@ -47,4 +60,26 @@ public class ItemGrandStaff extends ItemStaff {
         return TypedActionResult.success(player.getStackInHand(hand));
     }
 
+    @Override
+    public @Nullable NbtCompound readIotaTag(ItemStack stack) {
+        return null;
+    }
+
+    @Override
+    public boolean canWrite(ItemStack stack, @Nullable Iota iota) {
+        return false;
+    }
+
+    @Override
+    public void writeDatum(ItemStack stack, @Nullable Iota datum) {
+        writeDatum(stack, datum, TAG_HEX);
+    }
+
+    public void writeDatum(ItemStack stack,  @Nullable Iota datum, String tag) {
+        if (datum == null) {
+            stack.removeSubNbt(tag);
+        } else {
+            NBTHelper.put(stack, tag, IotaType.serialize(datum));
+        }
+    }
 }

@@ -15,12 +15,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MsgNewSpellPatternS2C.class)
 public abstract class MixinMsgNewSpellPatternS2C {
 
-    @Inject(method = "handle", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/MinecraftClient;getInstance()Lnet/minecraft/client/MinecraftClient;"))
-    private static void test(MsgNewSpellPatternS2C self, CallbackInfo ci) {
-        FiveDimCasting.LOGGER.info("hi");
-        var screen = MinecraftClient.getInstance().currentScreen;
-        if (screen instanceof GuiGrandStaffSpellCasting spellGui) {
-            spellGui.recvServerUpdate(self.info(), self.index());
-        }
+    @Inject(method = "handle", at = @At("HEAD"))
+    private static void handleGrandStaff(MsgNewSpellPatternS2C self, CallbackInfo ci) {
+        MinecraftClient.getInstance().execute(() -> {
+            var screen = MinecraftClient.getInstance().currentScreen;
+            if (screen instanceof GuiGrandStaffSpellCasting spellGui) {
+                spellGui.recvServerUpdate(self.info(), self.index());
+            }
+        });
     }
 }
